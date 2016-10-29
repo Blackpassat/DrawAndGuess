@@ -1,0 +1,19 @@
+body {
+	background-color: #333;
+  	padding-top: 5%;
+  	padding-bottom: 5%;
+}
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
