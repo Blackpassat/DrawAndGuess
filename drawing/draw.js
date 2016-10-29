@@ -7,6 +7,7 @@ var strokeManager = new StrokeManager(canvas);
 
 var locationLabel = document.getElementById('cursorLocation');
 var redoButton = document.getElementById('redo');
+var clearButton = document.getElementById('clear');
 
 var isDrawing = false;
 
@@ -44,4 +45,8 @@ function getMouseLocationOnCanvas(evt) {
 
 redoButton.onclick = function redo () {
 	strokeManager.redoDrawing();
+}
+
+clearButton.onclick = function clear() {
+	strokeManager.clearDrawing();
 }

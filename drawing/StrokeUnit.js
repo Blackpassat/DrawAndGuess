@@ -58,4 +58,10 @@ class StrokeManager {
     		this.ctx.stroke();
 		}
 	}
+
+	clearDrawing() {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.currentStroke = null;
+		this.strokeArray = [];
+	}
 }
