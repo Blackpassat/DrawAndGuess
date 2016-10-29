@@ -5,10 +5,16 @@ class Point {
   }
 }
 
-class StrokeUnit {
-	constructor (color, lineWidth, startPoint) {
+class StrokeStyle {
+	constructor(color, lineWidth) {
 		this.color = color;
 		this.lineWidth = lineWidth;
+	}
+}
+
+class StrokeUnit {
+	constructor (style, startPoint) {
+		this.style = style;
 		this.startPoint = startPoint;
 		this.pointArray = [startPoint];
 
@@ -27,10 +33,10 @@ class StrokeManager {
 		this.strokeArray = [];
 	}
 
-	startDrawing(color, lineWidth, startPoint) {
-		this.currentStroke = new StrokeUnit(color, lineWidth, startPoint);
-		this.ctx.lineWidth = lineWidth;
-		this.ctx.strokeStyle = color;
+	startDrawing(style, startPoint) {
+		this.currentStroke = new StrokeUnit(style, startPoint);
+		this.ctx.lineWidth = style.lineWidth;
+		this.ctx.strokeStyle = style.color;
 		this.ctx.beginPath();
 		this.ctx.moveTo(startPoint.x, startPoint.y);
 	}
@@ -49,20 +55,11 @@ class StrokeManager {
 		}
 	}
 
-	// redoDrawing() {
-	// 	var lastStrokeUnit = this.strokeArray.pop();
-	// 	if (!lastStrokeUnit) return;
-	// 	this.startDrawing("#FFFFFF", lastStrokeUnit.lineWidth, lastStrokeUnit.startPoint);
-	// 	for (let point of lastStrokeUnit.pointArray) {
- //  			this.ctx.lineTo(point.x, point.y);
- //    		this.ctx.stroke();
-	// 	}
-	// }
 	redoDrawing() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.strokeArray.pop();
 		for (let stroke of this.strokeArray) {
-			this.startDrawing(stroke.color, stroke.lineWidth, stroke.startPoint);
+			this.startDrawing(stroke.style, stroke.startPoint);
 			for (let point of stroke.pointArray) {
   				this.ctx.lineTo(point.x, point.y);
     			this.ctx.stroke();

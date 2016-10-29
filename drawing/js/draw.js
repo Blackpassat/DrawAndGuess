@@ -12,14 +12,13 @@ var clearButton = document.getElementById('clear');
 var isDrawing = false;
 
 var startPoint = new Point(0, 0);
-var color = "#0000FF";
-var lineWidth = 10;
+var strokeStyle = new StrokeStyle("#0000FF", 10);
 
 canvas.onmousedown = function doMouseDown (evt) {
 	if (!isDrawing) {
 		var currentPoint = getMouseLocationOnCanvas(evt);
 		startPoint = new Point(currentPoint.x, currentPoint.y);
-		strokeManager.startDrawing(color, lineWidth, startPoint);
+		strokeManager.startDrawing(strokeStyle, startPoint);
 		isDrawing = true;
 	}
 }
