@@ -33,8 +33,10 @@ canvas.onmousemove = function doMouseMove (evt) {
 }
 
 function doMouseUp() {
-	strokeManager.endDrawing();
-	isDrawing = false;
+	if (isDrawing) {
+		strokeManager.endDrawing();
+		isDrawing = false;
+	}
 }
 canvas.onmouseup = canvas.onmouseout = doMouseUp;
 

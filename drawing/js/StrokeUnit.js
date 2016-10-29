@@ -49,13 +49,24 @@ class StrokeManager {
 		}
 	}
 
+	// redoDrawing() {
+	// 	var lastStrokeUnit = this.strokeArray.pop();
+	// 	if (!lastStrokeUnit) return;
+	// 	this.startDrawing("#FFFFFF", lastStrokeUnit.lineWidth, lastStrokeUnit.startPoint);
+	// 	for (let point of lastStrokeUnit.pointArray) {
+ //  			this.ctx.lineTo(point.x, point.y);
+ //    		this.ctx.stroke();
+	// 	}
+	// }
 	redoDrawing() {
-		var lastStrokeUnit = this.strokeArray.pop();
-		if (!lastStrokeUnit) return;
-		this.startDrawing("#FFFFFF", lastStrokeUnit.lineWidth, lastStrokeUnit.startPoint);
-		for (let point of lastStrokeUnit.pointArray) {
-  			this.ctx.lineTo(point.x, point.y);
-    		this.ctx.stroke();
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.strokeArray.pop();
+		for (let stroke of this.strokeArray) {
+			this.startDrawing(stroke.color, stroke.lineWidth, stroke.startPoint);
+			for (let point of stroke.pointArray) {
+  				this.ctx.lineTo(point.x, point.y);
+    			this.ctx.stroke();
+			}
 		}
 	}
 
