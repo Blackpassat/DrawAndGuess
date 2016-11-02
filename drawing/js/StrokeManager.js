@@ -34,6 +34,8 @@ class StrokeManager {
 	}
 
 	startDrawing(style, startPoint) {
+		console.log(style);
+		console.log(startPoint);
 		this.currentStroke = new StrokeUnit(style, startPoint);
 		this.ctx.lineWidth = style.lineWidth;
 		this.ctx.strokeStyle = style.color;

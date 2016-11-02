@@ -14,11 +14,31 @@ var isDrawing = false;
 var startPoint = new Point(0, 0);
 var strokeStyle = new StrokeStyle("#0000FF", 10);
 
+var networkManager = new NetworkManager();
+networkManager.registerServer_drawing("http://localhost:1234", this.startDrawing, drawPoint, endDrawing);
+
+function receiveData(data) {
+	locationLabel.innerText = data;
+}
+
+function startDrawing(strokeStyle, startPoint) {
+	strokeManager.startDrawing(strokeStyle, startPoint);
+}
+
+function drawPoint(currentPoint) {
+	strokeManager.drawPoint(currentPoint);
+}
+
+function endDrawing() {
+	strokeManager.endDrawing();
+}
+
 canvas.onmousedown = function doMouseDown (evt) {
 	if (!isDrawing) {
 		var currentPoint = getMouseLocationOnCanvas(evt);
 		startPoint = new Point(currentPoint.x, currentPoint.y);
 		strokeManager.startDrawing(strokeStyle, startPoint);
+		networkManager.sendData_start(strokeStyle, startPoint);
 		isDrawing = true;
 	}
 }
@@ -28,12 +48,14 @@ canvas.onmousemove = function doMouseMove (evt) {
 	locationLabel.innerText = currentPoint.x + ", " + currentPoint.y;
 	if (isDrawing) {
 		strokeManager.drawPoint(currentPoint);
+		networkManager.sendData_startDrawing(currentPoint);
     }
 }
 
 function doMouseUp() {
 	if (isDrawing) {
 		strokeManager.endDrawing();
+		networkManager.sendData_endDrawing();
 		isDrawing = false;
 	}
 }
