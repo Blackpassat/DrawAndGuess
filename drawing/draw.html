@@ -19,28 +19,72 @@
 
     <link href="../bootstrap/css/theme.css" rel="stylesheet">
     <!-- <link href="cover.css" rel="stylesheet"> -->
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="./css/customButton.css">
+
   </head>
   <body>
   	<div class="container theme-showcase" role="main">
   		<div class="jumbotron" style="background-color: white;">
-  			<center>
-				<canvas id="myCanvas" width="400" height="400" style="border:1px solid #000000; cursor:crosshair" >
-			</canvas>
-		<p>Current Location:
-			<label id="cursorLocation"></label>
-			<br>
-			<button id="redo" class="btn btn-small btn-primary">Redo</button>
-			<button id="clear" class="btn btn-small btn-warning">Clear</button>
-		</p>
+        <center>
+				<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000; cursor:crosshair">    
+        </canvas>
 
-	</center>
-  <script src="js/socket.io.js"></script>
-  <script src="js/NetworkManager.js"></script>
-	<script src="js/StrokeManager.js"></script>
-	<script src="js/draw.js"></script>
+        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 0px; width: 600px; height: 100px;">
+
+          <ul class="nav nav-pills">
+              <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th" aria-hidden="true"></i> COLOR</a></li>
+              <li><a href="#tab2" data-toggle="tab"><i class="fa fa-paint-brush" aria-hidden="true"></i> STROKE</a></li>
+              <li><a href="#tab3" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a></li>
+          </ul>
+
+          <div class="tab-content">
+
+              <div class="tab-pane active" id="tab1">
+                <button type="button" class="btn btn-default btn-circle" style="background-color: #000000" onclick="changeStrokeColor('#000000')"></button>
+                <button type="button" class="btn btn-default btn-circle" style="background-color: #0000FF" onclick="changeStrokeColor('#0000FF')"></button>
+                <button type="button" class="btn btn-default btn-circle" style="background-color: #00FF00" onclick="changeStrokeColor('#00FF00')"></button>
+                <button type="button" class="btn btn-default btn-circle" style="background-color: #FF0000" onclick="changeStrokeColor('#FF0000')"></button>  
+                <button type="button" class="btn btn-default btn-circle" style="background-color: #FFFF00" onclick="changeStrokeColor('#FFFF00')"></button>
+                <button type="button" class="btn btn-default btn-circle" style="background-color: #FF7F00" onclick="changeStrokeColor('#FF7F00')"></button>
+                <button type="button" class="btn btn-default btn-circle" style="background-color: #7F007F" onclick="changeStrokeColor('#7F007F')"></button>
+                <button type="button" class="btn btn-default btn-circle" style="background-color: #996633" onclick="changeStrokeColor('#996633')"></button>
+                <button id="eraser" class="btn btn-small btn-default" onclick="changeStrokeColor('#FFFFFF')"><i class="fa fa-eraser" aria-hidden="true"></i> ERASER</button>
+
+              </div>
+
+              <div class="tab-pane" id="tab2">
+                <p>
+                  <input type="range" name="luckyNumber" id="luckyNumber" min="5" max="20" step="1" value="10" onmousemove="changeStrokeLineWidth(this.value)">
+                </p>
+
+              </div>
+              <div class="tab-pane" id="tab3">
+                <p>
+                <button id="redo" class="btn btn-small btn-primary"><i class="fa fa-undo" aria-hidden="true"></i> UNDO</button>
+                <button id="clear" class="btn btn-small btn-danger"><i class="fa fa-times" aria-hidden="true"></i> CLEAR</button>
+                <button id="save" class="btn btn-small btn-success"><i class="fa fa-save" aria-hidden="true"></i> SAVE</button>
+                </p>
+              </div>
+
+          </div>
+        </div>
+
+        <p>Current Location:
+        <label id="cursorLocation"></label>
+        </p>
+
+	      </center>
       </div>
     </div>
 
+    <script src="js/socket.io.js"></script>
+    <script src="js/NetworkManager.js"></script>
+    <script src="js/StrokeManager.js"></script>
+    <script src="js/draw.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

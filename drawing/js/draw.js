@@ -73,3 +73,11 @@ redoButton.onclick = function redo () {
 clearButton.onclick = function clear() {
 	strokeManager.clearDrawing();
 }
+
+function changeStrokeColor (color) {
+	strokeStyle = new StrokeStyle(color, strokeStyle.lineWidth);
+}
+
+function changeStrokeLineWidth (lineWidth) {
+	strokeStyle = new StrokeStyle(strokeStyle.color, lineWidth);
+}
