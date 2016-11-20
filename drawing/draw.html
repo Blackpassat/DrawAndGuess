@@ -33,12 +33,14 @@
 				<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000; cursor:crosshair">    
         </canvas>
 
-        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 0px; width: 600px; height: 100px;">
+        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 0px; padding-bottom: 10px; width: 600px;">
 
           <ul class="nav nav-pills">
               <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th" aria-hidden="true"></i> COLOR</a></li>
               <li><a href="#tab2" data-toggle="tab"><i class="fa fa-paint-brush" aria-hidden="true"></i> STROKE</a></li>
               <li><a href="#tab3" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a></li>
+              <li><a href="#tab4" data-toggle="tab"><i class="fa fa-crosshairs" aria-hidden="true"></i> GUESS</a></li>
+              <li><a href="#tab5" data-toggle="tab"><i class="fa fa-comments" aria-hidden="true"></i> CHAT</a></li>
           </ul>
 
           <div class="tab-content">
@@ -53,20 +55,43 @@
                 <button type="button" class="btn btn-default btn-circle" style="background-color: #7F007F" onclick="changeStrokeColor('#7F007F')"></button>
                 <button type="button" class="btn btn-default btn-circle" style="background-color: #996633" onclick="changeStrokeColor('#996633')"></button>
                 <button id="eraser" class="btn btn-small btn-default" onclick="changeStrokeColor('#FFFFFF')"><i class="fa fa-eraser" aria-hidden="true"></i> ERASER</button>
-
               </div>
 
               <div class="tab-pane" id="tab2">
                 <p>
-                  <input type="range" name="luckyNumber" id="luckyNumber" min="5" max="20" step="1" value="10" onmousemove="changeStrokeLineWidth(this.value)">
+                  <input type="range" min="5" max="20" step="1" value="10" onmousemove="changeStrokeLineWidth(this.value)">
+                  <span class="label label-primary" id="lineWidth_label">Line Width: 10</span>
                 </p>
-
               </div>
+
               <div class="tab-pane" id="tab3">
                 <p>
                 <button id="redo" class="btn btn-small btn-primary"><i class="fa fa-undo" aria-hidden="true"></i> UNDO</button>
                 <button id="clear" class="btn btn-small btn-danger"><i class="fa fa-times" aria-hidden="true"></i> CLEAR</button>
                 <button id="save" class="btn btn-small btn-success"><i class="fa fa-save" aria-hidden="true"></i> SAVE</button>
+                </p>
+              </div>
+
+              <div class="tab-pane" id="tab4">
+                  <p>
+                    <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Iron Man" id="guessInput">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                        </div><!-- /input-group -->
+                    </div>
+                  </p>
+
+              <div class="tab-pane" id="tab5">
+                <p>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Spark's drawing is so good..." id="chatInput">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button">Send!</button>
+                        </span>
+                      </div><!-- /input-group -->
+                    </div>
                 </p>
               </div>
 

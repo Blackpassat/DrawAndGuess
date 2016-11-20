@@ -80,4 +80,5 @@ function changeStrokeColor (color) {
 
 function changeStrokeLineWidth (lineWidth) {
 	strokeStyle = new StrokeStyle(strokeStyle.color, lineWidth);
+	document.getElementById('lineWidth_label').innerText = "Line Width: " + lineWidth;
 }
