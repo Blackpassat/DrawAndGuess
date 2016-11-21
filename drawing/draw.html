@@ -33,7 +33,22 @@
 				<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000; cursor:crosshair">    
         </canvas>
 
-        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 0px; padding-bottom: 10px; width: 600px;">
+        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 10px; margin-bottom: 5px; width: 600px; height: 50px">
+          <ul class="list-inline">
+            <li><i class="fa fa-quote-left fa-2x" aria-hidden="true"></i></li>
+            
+            <li style="width: 400px">
+                <h4><marquee behavior="scroll" direction="left" loop="1">
+                <i class="fa fa-terminal" aria-hidden="true" style="margin-right: 5px;"></i>
+                  <span id="message">Wow, nice drawing...</span>
+                </marquee></h4>
+            </li>
+
+            <li><i class="fa fa-quote-right fa-2x" aria-hidden="true"></i></li>
+          </ul>
+        </div>
+
+        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 10px; padding-bottom: 10px; width: 600px;">
 
           <ul class="nav nav-pills">
               <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th" aria-hidden="true"></i> COLOR</a></li>
@@ -89,6 +104,8 @@
                         <input type="text" class="form-control" placeholder="Spark's drawing is so good..." id="chatInput">
                         <span class="input-group-btn">
                           <button class="btn btn-default" type="button">Send!</button>
+                          <button class="btn btn-primary" type="button"><i class="fa fa-thumbs-o-up fa-1x" aria-hidden="true"></i></button>
+                          <button class="btn btn-warning" type="button"><i class="fa fa-thumbs-o-down fa-1x" aria-hidden="true"></i></button>
                         </span>
                     </div><!-- /input-group -->
                 </p>
