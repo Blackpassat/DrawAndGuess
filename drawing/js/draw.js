@@ -6,7 +6,7 @@ var strokeManager = new StrokeManager(canvas);
 // canvas.addEventListener("mousedown", doMouseDown(evt));
 
 var locationLabel = document.getElementById('cursorLocation');
-var redoButton = document.getElementById('redo');
+var undoButton = document.getElementById('undo');
 var clearButton = document.getElementById('clear');
 var saveButton = document.getElementById('save');
 
@@ -16,7 +16,7 @@ var startPoint = new Point(0, 0);
 var strokeStyle = new StrokeStyle("#0000FF", 10);
 
 var networkManager = new NetworkManager();
-networkManager.registerServer_drawing("http://localhost:1234", this.startDrawing, drawPoint, endDrawing);
+networkManager.registerServer_drawing("http://localhost:1234", startDrawing, drawPoint, endDrawing, undoDrawing, clearDrawing);
 
 function receiveData(data) {
 	locationLabel.innerText = data;
@@ -67,13 +67,27 @@ function getMouseLocationOnCanvas(evt) {
 	return new Point(evt.clientX - rect.left, evt.clientY - rect.top);
 }
 
-redoButton.onclick = function redo () {
-	strokeManager.redoDrawing();
+function undoButtonClicked () {
+	undoDrawing();
+	networkManager.sendData_undoDrawing();
 }
 
-clearButton.onclick = function clear() {
+function undoDrawing() {
+	strokeManager.undoDrawing();
+}
+
+undoButton.onclick = undoButtonClicked;
+
+function clearButtonClicked () {
+	clearDrawing();
+	networkManager.sendData_clearDrawing();
+}
+
+function clearDrawing() {
 	strokeManager.clearDrawing();
 }
+
+clearButton.onclick = clearButtonClicked;
 
 saveButton.onclick = function save() {
 	var imageName = '';

@@ -3,7 +3,7 @@ class NetworkManager {
 		this.socket_drawing = null;
 	}
 
-	registerServer_drawing(serverAddress, callback_startDrawing, callback_drawPoint, callback_endDrawing) {
+	registerServer_drawing(serverAddress, callback_startDrawing, callback_drawPoint, callback_endDrawing, callback_undoDrawing, callback_clearDrawing) {
 		this.socket_drawing = io.connect(serverAddress);
 		this.socket_drawing.on('start_drawing', function (data) {
 			console.log(data.message.startPoint);
@@ -17,6 +17,14 @@ class NetworkManager {
 
 		this.socket_drawing.on('end_drawing', function (data) {
 			callback_endDrawing();
+		});
+
+		this.socket_drawing.on('undo_drawing', function (data) {
+			callback_undoDrawing();
+		});
+
+		this.socket_drawing.on('clear_drawing', function (data) {
+			callback_clearDrawing();
 		});
 	}
 
@@ -43,6 +51,24 @@ class NetworkManager {
 	sendData_endDrawing() {
 		var data = {
 			type: 'end_drawing'};
+		if(!this.socket_drawing) return;
+		this.socket_drawing.emit('channel_drawing', {
+      		message: data
+    	});
+	}
+
+	sendData_undoDrawing() {
+		var data = {
+			type: 'undo_drawing'};
+		if(!this.socket_drawing) return;
+		this.socket_drawing.emit('channel_drawing', {
+      		message: data
+    	});
+	}
+
+	sendData_clearDrawing() {
+		var data = {
+			type: 'clear_drawing'};
 		if(!this.socket_drawing) return;
 		this.socket_drawing.emit('channel_drawing', {
       		message: data

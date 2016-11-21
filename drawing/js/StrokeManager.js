@@ -57,7 +57,7 @@ class StrokeManager {
 		}
 	}
 
-	redoDrawing() {
+	undoDrawing() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.strokeArray.pop();
 		for (let stroke of this.strokeArray) {
