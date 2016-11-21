@@ -1,6 +1,7 @@
 class NetworkManager {
 	constructor() {
 		this.socket_drawing = null;
+		this.socket_chat = null;
 	}
 
 	registerServer_drawing(serverAddress, callback_startDrawing, callback_drawPoint, callback_endDrawing, callback_undoDrawing, callback_clearDrawing) {
@@ -74,4 +75,29 @@ class NetworkManager {
       		message: data
     	});
 	}
+
+	registerServer_chat(serverAddress, callback_newChatMessage, callback_newSystemMessage) {
+		this.socket_chat = io.connect(serverAddress);
+		this.socket_chat.on('chat_message', function (data) {
+			console.log(data.message);
+			callback_newChatMessage(data.message);
+		});
+		this.socket_chat.on('system_message', function (data) {
+
+		});
+	}
+
+	sendData_chatMessage(message) {
+		var data = {
+			type: 'chat_message',
+			content: message};
+		this.socket_chat.emit('channel_chat', {
+      		message: data
+    	});
+	}
+
+	sendData_guessAnswer(answer) {
+
+	}
+
 }

@@ -17,6 +17,7 @@ var strokeStyle = new StrokeStyle("#0000FF", 10);
 
 var networkManager = new NetworkManager();
 networkManager.registerServer_drawing("http://localhost:1234", startDrawing, drawPoint, endDrawing, undoDrawing, clearDrawing);
+networkManager.registerServer_chat("http://localhost:1234", receiveData, receiveData);
 
 function receiveData(data) {
 	locationLabel.innerText = data;
@@ -115,3 +116,16 @@ function changeStrokeLineWidth (lineWidth) {
 	strokeStyle = new StrokeStyle(strokeStyle.color, lineWidth);
 	document.getElementById('lineWidth_label').innerText = "Line Width: " + lineWidth;
 }
+
+
+// Chat and Guess Functions
+
+function sendChatMessage() {
+	var chatInput = document.getElementById('chatInput');
+	if (chatInput.value != "") {
+		networkManager.sendData_chatMessage(chatInput.value);
+		chatInput.value = "";
+	}
+}
+
+
