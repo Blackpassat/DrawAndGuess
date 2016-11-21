@@ -8,6 +8,7 @@ var strokeManager = new StrokeManager(canvas);
 var locationLabel = document.getElementById('cursorLocation');
 var redoButton = document.getElementById('redo');
 var clearButton = document.getElementById('clear');
+var saveButton = document.getElementById('save');
 
 var isDrawing = false;
 
@@ -72,6 +73,24 @@ redoButton.onclick = function redo () {
 
 clearButton.onclick = function clear() {
 	strokeManager.clearDrawing();
+}
+
+saveButton.onclick = function save() {
+	var imageName = '';
+	var ctx = canvas.getContext("2d");
+    if (ctx) {
+        var xmlhttp = new XMLHttpRequest;
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var src = xmlhttp.responseText;
+                window.open(src);
+            }
+        };
+        var image = canvas.toDataURL();
+        xmlhttp.open("post", "saveDrawing.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("img=" + image);
+    }
 }
 
 function changeStrokeColor (color) {
