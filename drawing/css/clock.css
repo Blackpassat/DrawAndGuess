@@ -8,17 +8,19 @@
 }
 
 #clockdiv > div{
-    padding: 3px;
     border-radius: 3px;
     background: transparent;
     display: inline-block;
 }
 
 #clockdiv div > span{
-    padding: 1px;
     border-radius: 3px;
     background: transparent;
     display: inline-block;
+}
+
+#clockdiv div span danger{
+  color: red;
 }
 
 .smalltext{
