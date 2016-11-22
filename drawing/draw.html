@@ -24,16 +24,34 @@
     <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
 
     <link rel="stylesheet" type="text/css" href="./css/customButton.css">
+    <link rel="stylesheet" type="text/css" href="./css/clock.css">
 
   </head>
   <body>
   	<div class="container theme-showcase" role="main">
-  		<div class="jumbotron" style="background-color: white;">
+  		<div class="jumbotron" style="background-color: white; background-image: url('img/background.png')">
         <center>
-				<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000; cursor:crosshair">    
+        <div style="color: white; background-color: #D5CED2; width: 600px; height: 50px; border-radius: 10px; margin-bottom: 5px; background-image: url('img/question_bar.jpg')">
+          <div class="row" style="padding-right: 0px;"> 
+              <div class="col-sm-1 col-md-1" style="margin-left: 15px;">
+                <i class="fa fa-gamepad fa-3x" aria-hidden="true" style="padding-top: 4px;"></i>
+              </div>
+
+              <div class="col-sm-8 col-md-8" style="margin-top: 13px; text-align: left;">
+                <label style="font-size: 20px;">QUESTION: IRON MAN</label>
+              </div>
+
+              <div id="clockdiv" class="col-sm-2 col-md-2" style="margin-top: 4px; text-align: right; padding-right: 0px">
+                  <div><span class="minutes"></span></div>
+                  <div><span class="seconds"></span></div>
+              </div>
+          </div>
+        </div>
+
+				<canvas id="myCanvas" width="600" height="600" style="border:1px solid green; cursor:crosshair; background-color: white; border-radius: 8px">    
         </canvas>
 
-        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 10px; margin-bottom: 5px; width: 600px; height: 50px">
+        <div class="jumbotron" style="background-color: white; padding-top: 10px; margin-bottom: 5px; width: 600px; height: 50px">
           <ul class="list-inline">
             <li><i class="fa fa-quote-left fa-2x" aria-hidden="true"></i></li>
             
@@ -48,7 +66,7 @@
           </ul>
         </div>
 
-        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 10px; padding-bottom: 10px; width: 600px; height: 120px">
+        <div class="jumbotron" style="background-color: white; padding-top: 10px; padding-bottom: 10px; width: 600px; height: 120px">
 
           <ul class="nav nav-pills">
               <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th" aria-hidden="true"></i> COLOR</a></li>
@@ -127,6 +145,7 @@
     <script src="js/StrokeManager.js"></script>
     <script src="js/MessagePool.js"></script>
     <script src="js/draw.js"></script>
+    <script src="js/clock.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
