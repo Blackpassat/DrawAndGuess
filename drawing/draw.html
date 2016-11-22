@@ -24,21 +24,43 @@
     <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
 
     <link rel="stylesheet" type="text/css" href="./css/customButton.css">
+    <link rel="stylesheet" type="text/css" href="./css/clock.css">
 
   </head>
   <body>
   	<div class="container theme-showcase" role="main">
-  		<div class="jumbotron" style="background-color: white;">
+  		<div class="jumbotron" style="background-color: white; background-image: url('img/background.png')">
         <center>
-				<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000; cursor:crosshair">    
+        <div style="color: white; background-color: #D5CED2; width: 600px; height: 50px; border-radius: 10px; margin-bottom: 5px; background-image: url('img/question_bar.jpg')">
+          <div class="row" style="padding-right: 0px;"> 
+              <div class="col-sm-1 col-md-1" style="margin-left: 15px;">
+                <i class="fa fa-gamepad fa-3x" aria-hidden="true" style="padding-top: 4px;"></i>
+              </div>
+
+              <div class="col-sm-2 col-md-2" style="margin-top: 13px; text-align: left; margin-right: 10px">
+                <label style="font-size: 20px;">QUESTION: </label>
+              </div>
+
+              <div class="col-sm-6 col-md-6" style="margin-top: 6px; text-align: left;">
+                <h4 style="font-size: 20px;"><marquee behavior="alternate" direction="left" scrollamount="6" loop="1"> IRON MAN</marquee></h4>
+              </div>
+
+              <div id="clockdiv" class="col-sm-2 col-md-2" style="margin-top: 10px; padding-right: 0px">
+                  <div><span class="minutes"></span></div>
+                  <div><span class="seconds"></span></div>
+              </div>
+          </div>
+        </div>
+
+				<canvas id="myCanvas" width="600" height="600" style="border:1px solid green; cursor:crosshair; background-color: white; border-radius: 8px">    
         </canvas>
 
-        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 10px; margin-bottom: 5px; width: 600px; height: 50px">
+        <div class="jumbotron" style="background-color: white; padding-top: 10px; margin-bottom: 5px; width: 600px; height: 50px">
           <ul class="list-inline">
             <li><i class="fa fa-quote-left fa-2x" aria-hidden="true"></i></li>
             
             <li style="width: 400px">
-                <h4><marquee behavior="scroll" direction="left" scrollamount="8" id="chatMessageMarquee">
+                <h4><marquee behavior="scroll" direction="left" scrollamount="5" id="chatMessageMarquee">
                 <i class="fa fa-volume-up" aria-hidden="true" style="margin-right: 5px;"></i>
                   <span id="chatMessageLabel">Wow, nice drawing...</span>
                 </marquee></h4>
@@ -48,7 +70,7 @@
           </ul>
         </div>
 
-        <div class="jumbotron" style="background-color: #D5CED2; padding-top: 10px; padding-bottom: 10px; width: 600px;">
+        <div class="jumbotron" style="background-color: white; padding-top: 10px; padding-bottom: 10px; width: 600px; padding-left: 10px; padding-right: 10px">
 
           <ul class="nav nav-pills">
               <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th" aria-hidden="true"></i> COLOR</a></li>
@@ -56,6 +78,7 @@
               <li><a href="#tab3" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a></li>
               <li><a href="#tab4" data-toggle="tab"><i class="fa fa-crosshairs" aria-hidden="true"></i> GUESS</a></li>
               <li><a href="#tab5" data-toggle="tab"><i class="fa fa-comments" aria-hidden="true"></i> CHAT</a></li>
+              <li><a href="#tab6" data-toggle="tab"><i class="fa fa-users" aria-hidden="true"></i> PLAYERS</a></li>
           </ul>
 
           <div class="tab-content">
@@ -111,6 +134,17 @@
                 </p>
               </div>
 
+              <div class="tab-pane" id="tab6">
+                <div class="panel panel-default">
+                <div class="panel-heading">CURRENT PLAYERS</div>
+                    <ul class="list-group">
+                      <li class="list-group-item list-group-item-success"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Spark_Shen</li>
+                      <li class="list-group-item list-group-item-default"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Raymond_Xue</li>
+                      <li class="list-group-item list-group-item-default"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Yisha_Yi</li>
+                    </ul>
+                  </div>
+              </div>
+
           </div>
         </div>
 
@@ -127,6 +161,7 @@
     <script src="js/StrokeManager.js"></script>
     <script src="js/MessagePool.js"></script>
     <script src="js/draw.js"></script>
+    <script src="js/clock.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
