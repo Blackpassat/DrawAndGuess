@@ -73,17 +73,35 @@
         <div class="jumbotron" style="background-color: white; padding-top: 10px; padding-bottom: 10px; width: 600px; padding-left: 10px; padding-right: 10px">
 
           <ul class="nav nav-pills">
-              <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th" aria-hidden="true"></i> COLOR</a></li>
-              <li><a href="#tab2" data-toggle="tab"><i class="fa fa-paint-brush" aria-hidden="true"></i> STROKE</a></li>
-              <li><a href="#tab3" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a></li>
-              <li><a href="#tab4" data-toggle="tab"><i class="fa fa-crosshairs" aria-hidden="true"></i> GUESS</a></li>
-              <li><a href="#tab5" data-toggle="tab"><i class="fa fa-comments" aria-hidden="true"></i> CHAT</a></li>
-              <li><a href="#tab6" data-toggle="tab"><i class="fa fa-users" aria-hidden="true"></i> PLAYERS</a></li>
+              <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-cog" aria-hidden="true"></i> ROOM</a></li>
+              <li><a href="#tab2" data-toggle="tab"><i class="fa fa-th" aria-hidden="true"></i> COLOR</a></li>
+              <li><a href="#tab3" data-toggle="tab"><i class="fa fa-paint-brush" aria-hidden="true"></i> STROKE</a></li>
+              <li><a href="#tab4" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a></li>
+              <li><a href="#tab5" data-toggle="tab"><i class="fa fa-crosshairs" aria-hidden="true"></i> GUESS</a></li>
+              <li><a href="#tab6" data-toggle="tab"><i class="fa fa-comments" aria-hidden="true"></i> CHAT</a></li>
           </ul>
 
           <div class="tab-content">
 
               <div class="tab-pane active" id="tab1">
+                <div class="panel panel-default">
+                <div class="panel-heading">CURRENT PLAYERS</div>
+                    <ul class="list-group">
+                      <li class="list-group-item list-group-item-success"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Spark_Shen</li>
+                      <li class="list-group-item list-group-item-default"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Raymond_Xue</li>
+                      <li class="list-group-item list-group-item-default"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Yisha_Yi</li>
+                    </ul>
+                <div class="panel-heading">SETTINGS</div>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-default"><button id="startGame" class="btn btn-small btn-success"><i class="fa fa-bomb" aria-hidden="true"></i> START GAME</button>
+
+                        <button id="leaveGame" class="btn btn-small btn-danger"><i class="fa fa-sign-out" aria-hidden="true"></i> LEAVE GAME</button>
+                      </li>
+                    </ul>
+                </div>
+              </div>
+
+              <div class="tab-pane" id="tab2">
                 <button type="button" class="btn btn-default btn-circle" style="background-color: #000000" onclick="changeStrokeColor('#000000')"></button>
                 <button type="button" class="btn btn-default btn-circle" style="background-color: #0000FF" onclick="changeStrokeColor('#0000FF')"></button>
                 <button type="button" class="btn btn-default btn-circle" style="background-color: #00FF00" onclick="changeStrokeColor('#00FF00')"></button>
@@ -95,14 +113,14 @@
                 <button id="eraser" class="btn btn-small btn-default" onclick="changeStrokeColor('#FFFFFF')"><i class="fa fa-eraser" aria-hidden="true"></i> ERASER</button>
               </div>
 
-              <div class="tab-pane" id="tab2">
+              <div class="tab-pane" id="tab3">
                 <p>
                   <input type="range" min="5" max="20" step="1" value="10" onmousemove="changeStrokeLineWidth(this.value)">
                   <span class="label label-primary" id="lineWidth_label">Line Width: 10</span>
                 </p>
               </div>
 
-              <div class="tab-pane" id="tab3">
+              <div class="tab-pane" id="tab4">
                 <p>
                 <button id="undo" class="btn btn-small btn-primary"><i class="fa fa-undo" aria-hidden="true"></i> UNDO</button>
                 <button id="clear" class="btn btn-small btn-danger"><i class="fa fa-times" aria-hidden="true"></i> CLEAR</button>
@@ -110,7 +128,7 @@
                 </p>
               </div>
 
-              <div class="tab-pane" id="tab4">
+              <div class="tab-pane" id="tab5">
                   <p>
                       <div class="input-group">
                           <input type="text" class="form-control" placeholder="Iron Man" id="guessInput">
@@ -121,7 +139,7 @@
                   </p>
               </div>
 
-              <div class="tab-pane" id="tab5">
+              <div class="tab-pane" id="tab6">
                 <p>
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Spark's drawing is so good..." id="chatInput">
@@ -132,17 +150,6 @@
                         </span>
                     </div><!-- /input-group -->
                 </p>
-              </div>
-
-              <div class="tab-pane" id="tab6">
-                <div class="panel panel-default">
-                <div class="panel-heading">CURRENT PLAYERS</div>
-                    <ul class="list-group">
-                      <li class="list-group-item list-group-item-success"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Spark_Shen</li>
-                      <li class="list-group-item list-group-item-default"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Raymond_Xue</li>
-                      <li class="list-group-item list-group-item-default"><i class="fa fa-user-circle-o" aria-hidden="true" style="padding-right: 10px"></i>Yisha_Yi</li>
-                    </ul>
-                  </div>
               </div>
 
           </div>
