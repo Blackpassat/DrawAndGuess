@@ -2,10 +2,13 @@ class NetworkManager {
 	constructor() {
 		this.socket_drawing = null;
 		this.socket_chat = null;
+		this.roomID = "testingRoomID45";
 	}
 
 	registerServer_drawing(serverAddress, callback_startDrawing, callback_drawPoint, callback_endDrawing, callback_undoDrawing, callback_clearDrawing) {
 		this.socket_drawing = io.connect(serverAddress);
+		this.socket_drawing.emit('join', this.roomID);
+
 		this.socket_drawing.on('start_drawing', function (data) {
 			console.log(data.message.startPoint);
 			callback_startDrawing(data.message.strokeStyle, data.message.startPoint);
@@ -31,6 +34,7 @@ class NetworkManager {
 
 	sendData_startDrawing(point) {
 		var data = {
+			roomID: this.roomID,
 			type: 'draw_point',
 			content: point};
 		if(!this.socket_drawing) return;
@@ -41,6 +45,7 @@ class NetworkManager {
 
 	sendData_start(strokeStyle, startPoint) {
 		var data = {
+			roomID: this.roomID,
 			type: 'start_drawing',
 			content: {strokeStyle: strokeStyle, startPoint: startPoint}};
 		if(!this.socket_drawing) return;
@@ -51,6 +56,7 @@ class NetworkManager {
 
 	sendData_endDrawing() {
 		var data = {
+			roomID: this.roomID,
 			type: 'end_drawing'};
 		if(!this.socket_drawing) return;
 		this.socket_drawing.emit('channel_drawing', {
@@ -60,6 +66,7 @@ class NetworkManager {
 
 	sendData_undoDrawing() {
 		var data = {
+			roomID: this.roomID,
 			type: 'undo_drawing'};
 		if(!this.socket_drawing) return;
 		this.socket_drawing.emit('channel_drawing', {
@@ -69,6 +76,7 @@ class NetworkManager {
 
 	sendData_clearDrawing() {
 		var data = {
+			roomID: this.roomID,
 			type: 'clear_drawing'};
 		if(!this.socket_drawing) return;
 		this.socket_drawing.emit('channel_drawing', {
@@ -78,6 +86,8 @@ class NetworkManager {
 
 	registerServer_chat(serverAddress, callback_newChatMessage, callback_newSystemMessage) {
 		this.socket_chat = io.connect(serverAddress);
+		this.socket_chat.emit('join', this.roomID);
+		
 		this.socket_chat.on('chat_message', function (data) {
 			console.log(data.message);
 			callback_newChatMessage(data.message);
@@ -89,6 +99,7 @@ class NetworkManager {
 
 	sendData_chatMessage(message) {
 		var data = {
+			roomID: this.roomID,
 			type: 'chat_message',
 			content: message};
 		this.socket_chat.emit('channel_chat', {
