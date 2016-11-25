@@ -99,7 +99,7 @@
     <title>Dashboard Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../bootstrap-multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>
 
@@ -132,6 +132,9 @@
       }
       gray {
         color: gray;
+      }
+      .table td {
+        text-align: center;   
       }
     </style>
 
@@ -168,19 +171,27 @@
       function searchEmail() {
         var email = document.getElementById("searchEmail").value;
         //var tableHead = "<thead><tr><th>Name</th><th>Email</th><th>Status</th></tr></thead>";
-        var xmlHttp;
-        xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function() {
-          document.getElementById("searchEmailInfo").innerHTML = xmlHttp.responseText;
+        if(email == "") {
+          document.getElementById("searchEmailInfo").innerHTML = "<span class=\"text-danger\"><h4>Please fill something</h4></span>";
+        } else {
+          var xmlHttp;
+          xmlHttp = new XMLHttpRequest();
+          xmlHttp.onreadystatechange = function() {
+            document.getElementById("searchEmailInfo").innerHTML = xmlHttp.responseText;
+          }
+          var url = "search.php?email="+email;
+          xmlHttp.open("GET", url, true);
+          xmlHttp.send(null);
         }
-        var url = "search.php?email="+email;
-        xmlHttp.open("GET", url, true);
-        xmlHttp.send(null);
+        
         // document.getElementById("searchEmailInfo").innerHTML = tableHead+tableRow1+"hehe"+tableRow2+email+tableRow3+"hehe"+tableRow4;
       }
 
       function searchName() {
         var name = document.getElementById("searchName").value;
+        if(name == "") {
+          document.getElementById("searchNameInfo").innerHTML = "<span class=\"text-danger\"><h4>Please fill something</h4></span>";
+        } else {
         var xmlHttp;
         xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function() {
@@ -190,17 +201,131 @@
         xmlHttp.open("GET", url, true);
         xmlHttp.send(null);
       }
+      }
+
+      function addFriend(id) {
+        // document.getElementById(id).innerHTML = id;
+        var xmlHttp;
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+          document.getElementById(id).innerHTML = xmlHttp.responseText;
+        }
+        var url = "addfriend.php?id="+id;
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send(null);
+      }
+
+      function checkInbox(mode) {
+        //document.getElementById("searchFriendRequest").innerHTML = "haha";
+        var xmlHttp;
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+          if(mode == 0)
+            document.getElementById("searchFriendRequest").innerHTML = xmlHttp.responseText;
+          else if(mode == 1)
+            document.getElementById("searchSentRequest").innerHTML = xmlHttp.responseText;
+          else
+            document.getElementById("searchDeclinedRequest").innerHTML = xmlHttp.responseText;
+        }
+        if(mode == 0)
+          var url = "searchRequest.php?mode=0";
+        else if(mode == 1) 
+          var url = "searchRequest.php?mode=1";
+        else
+          var url = "searchRequest.php?mode=2";
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send(null);
+      }
+
+      function friendRequest(id, status) {
+        //document.getElementById(id).innerHTML = id+" "+status;
+        var xmlHttp;
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+          document.getElementById(id).innerHTML = xmlHttp.responseText;
+        }
+        var url = "addfriend.php?id="+id+"&status="+status;
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send(null);
+      }
+
+      function hideSendRequest(mode) {
+        if(mode == 0)
+          document.getElementById("searchSentRequest").innerHTML = "";
+        else
+          document.getElementById("searchDeclinedRequest").innerHTML = "";
+      }
 
       $(document).ready(function() {
-        $('#example-multiple-selected').multiselect({
-          buttonWidth: '80%',
-          maxHeight: 300,
-          enableCaseInsensitiveFiltering: true,
-          numberDisplayed: 10,
-          //buttonContainer: '<div class="btn-group" id="example-selectedClass-container"></div>',
-          //selectedClass: 'multiselect-selected',
+          var data = [];
+          
+            //var group = {label: 'Group ' + (i + 1), children: []};
+           // for (var j = 0; j < 10; j++) {
+         /* data.push({ label: 'haha', value: 'haha'});
+          data.push({ label: 'hehe', value: 'hehe'});
+          data.push({ label: 'hihi', value: 'hihi'});*/
+          /*<?php
+          echo "data.push({ label: \"".$_SESSION["userName"]." haha hehe hihi\", value: \"hihi\"});";
+          ?>*/
+          <?php
+          $conn = mysqli_connect("localhost", "root", "1.8Turbo","drawandguess");
+          if ($conn->connect_error)  {
+            exit;
+          }
+
+          $query = "SELECT user_one_id from relationship where user_two_id = \"".$_SESSION["userId"]."\" and status = '0'";
+          $result = $conn->query($query);
+          $result->data_seek(0);
+          while ($row = $result->fetch_assoc()) { 
+              $query1 = "SELECT userName, userEmail, status from users where userId = \"".$row["user_one_id"]."\" group by userName";
+              $result1 = $conn->query($query1);
+              $result1->data_seek(0);
+                while($row1 = $result1->fetch_assoc()) {
+                  if($row1["status"] == 'T') 
+                    $statusInfo = "online";
+                  else
+                    $statusInfo = "offline";
+                  //echo "data.push({ label: \"".$_SESSION["userName"]."\", value: \"hihi\"});";
+                  print("data.push({ label: \"Name: ".$row1["userName"]." Email: ".$row1["userEmail"]." Status: ".$statusInfo."\", value: \"".$row["user_one_id"]."\"});");
+            } }
+
+            $query = "SELECT user_two_id from relationship where user_one_id = \"".$_SESSION["userId"]."\" and status = '0'";
+            $result = $conn->query($query);
+            $result->data_seek(0);
+            while ($row = $result->fetch_assoc()) {
+              $query1 = "SELECT userName, userEmail, status from users where userId = \"".$row["user_two_id"]."\" group by userName";
+              $result1 = $conn->query($query1);
+              $result1->data_seek(0);
+              while($row1 = $result1->fetch_assoc()) {
+                if($row1["status"] == 'T') 
+                  $statusInfo = "online";
+                else
+                  $statusInfo = "offline";
+                print("data.push({ label: \"Name: ".$row1["userName"]." Email: ".$row1["userEmail"]." Status: ".$statusInfo."\", value: \"".$row["user_two_id"]."\"});");
+              }
+
+            }
+          $conn->close();
+          ?>
+          
+ 
+          //data.push(group);
+          
+ 
+      $(document).ready(function() {
+        $('#example-large-dataprovider').multiselect({
+            buttonWidth: '70%',
+            maxHeight: 300,
+            enableCaseInsensitiveFiltering: true,
+            numberDisplayed: 10,
         });
+        $('#example-large-dataprovider').multiselect('dataprovider', data);
+      });
     });
+
+      function updateFriendList() {
+        document.getElementById("friendList").innerHTML = "<option value=\"laba\">laba</option>";
+      }
 
     </script>
   </head>
@@ -239,8 +364,8 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li ><a href="#" data-toggle="modal" data-target="#message">Messages</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#friend">Friends</a></li>
+            <li ><a href="#" data-toggle="modal" data-target="#message" onclick="checkInbox(0)">Messages</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#friend">Add Friends</a></li>
 <!--             <li><a href="#">Analytics</a></li>
             <li><a href="#">Export</a></li> -->
           </ul>
@@ -310,14 +435,20 @@
                 </tr>
               </tbody>
             </table> -->
-            <select id="example-multiple-selected" multiple="multiple">
+            <!-- <select id="example-multiple-selected" multiple="multiple">
+            <div id="friendList"></div>
                 <option value="cheese">Cheese</option>
                 <option value="tomatoes">Tomatoes</option>
                 <option value="mozarella">Mozzarella</option>
                 <option value="mushrooms">Mushrooms</option>
                 <option value="pepperoni">Pepperoni</option>
                 <option value="onions">Onions</option>
-            </select>
+            </select> 
+            &nbsp;&nbsp;<button class="btn btn-info" type="button" id="example-large-dataprovider-button" style="width: 15%">Update Friend List</button> -->
+            
+            <select id="example-large-dataprovider" name="selectedFriend[]" multiple="multiple"></select>
+            <button class="btn btn-info" value="Refresh Page" onClick="window.location.reload()" style="width:12%">Refresh</button>
+            <button class="btn btn-success" onClick="" style="width:12%">Create</button>
           </div>
         </div>
       </div>
@@ -367,7 +498,7 @@
            
            <div class = "modal-header">
               <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true"> &times; </button>
-              <h4 class = "modal-title" id = "friendLabel">Friends</h4>
+              <h4 class = "modal-title" id = "friendLabel">Add Friends</h4>
            </div>
            <div class = "modal-body">
            <h5 class="sub-header">Search by email</h5>
@@ -397,7 +528,7 @@
            </div><!-- /.col-lg-6 -->
            </div>
            <div class="table-responsive">
-            <table class="table table-striped" id="searchNameInfo">
+            <table class="table table-striped"  id="searchNameInfo">
             <tbody>
               
             </tbody>
@@ -418,11 +549,44 @@
      <div class = "modal-dialog">
         <div class = "modal-content">
            
-           <div class = "modal-header">
-              <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true"> &times; </button>
-              <h4 class = "modal-title" id = "myModalLabel">Message</h4>
-           </div>
+          <div class = "modal-header">
+            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true"> &times; </button>
+            <h4 class = "modal-title" id = "myModalLabel">Messages</h4>
+          </div>
 
+          <div class="modal-body">
+          <div>
+            <h5 class="sub-header">Friend Requests&nbsp;&nbsp;<button class="btn btn-info btn-sm" type="button" onclick="checkInbox(0)" style="width: 12%">Refresh</button></h5>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="table table-striped">
+            <tbody id="searchFriendRequest">
+              
+            </tbody>
+            </table>
+          </div>
+          <h5 class="sub-header">Sent Requests&nbsp;&nbsp;<button class="btn btn-warning btn-sm" type="button" onclick="checkInbox(1)" style="width: 12%">Check</button>&nbsp;&nbsp;<button class="btn btn-default btn-sm" type="button" onclick="hideSendRequest(0)" style="width: 12%">Hide</button></h5>          
+          <div class="table-responsive">
+            <table class="table table-striped">
+            <tbody id="searchSentRequest">
+              
+            </tbody>
+            </table>
+          </div>
+
+          <h5 class="sub-header">Declined Requests&nbsp;&nbsp;<button class="btn btn-warning btn-sm" type="button" onclick="checkInbox(2)" style="width: 12%">Check</button>&nbsp;&nbsp;<button class="btn btn-default btn-sm" type="button" onclick="hideSendRequest(1)" style="width: 12%">Hide</button></h5>          
+          <div class="table-responsive">
+            <table class="table table-striped">
+            <tbody id="searchDeclinedRequest">
+              
+            </tbody>
+            </table>
+          </div>
+          </div><!-- /.modal-body -->
+          <div class = "modal-footer">
+              <button type = "button" class = "btn btn-primary" data-dismiss = "modal"> Close </button>
+           </div>
            </div><!-- /.modal-content -->
      </div><!-- /.modal-dialog -->
   
