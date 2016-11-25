@@ -25,9 +25,8 @@
 
     <link rel="stylesheet" type="text/css" href="./css/customButton.css">
     <link rel="stylesheet" type="text/css" href="./css/clock.css">
-
   </head>
-  <body>
+  <body onload="load()">
   	<div class="container theme-showcase" role="main">
   		<div class="jumbotron" style="background-color: white; background-image: url('img/background.png')">
         <center>
@@ -115,7 +114,7 @@
 
               <div class="tab-pane" id="tab3">
                 <p>
-                  <input type="range" min="5" max="20" step="1" value="10" onmousemove="changeStrokeLineWidth(this.value)">
+                  <input type="range" min="5" max="20" step="1" value="10" id="strokeWidthChanger">
                   <span class="label label-primary" id="lineWidth_label">Line Width: 10</span>
                 </p>
               </div>
@@ -144,7 +143,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Spark's drawing is so good..." id="chatInput">
                         <span class="input-group-btn">
-                          <button class="btn btn-default" type="button" onclick="sendChatMessage()">Send!</button>
+                          <button class="btn btn-default" type="button" id="sendChatMessageButton">Send!</button>
                           <button class="btn btn-primary" type="button"><i class="fa fa-thumbs-o-up fa-1x" aria-hidden="true"></i></button>
                           <button class="btn btn-warning" type="button"><i class="fa fa-thumbs-o-down fa-1x" aria-hidden="true"></i></button>
                         </span>
@@ -167,8 +166,23 @@
     <script src="js/NetworkManager.js"></script>
     <script src="js/StrokeManager.js"></script>
     <script src="js/MessagePool.js"></script>
-    <script src="js/draw.js"></script>
+    <script src="js/GameRoom.js"></script>
     <script src="js/clock.js"></script>
+    <script src="../game/GameRoomManager.js"></script>
+    <script type="text/javascript">
+      var gameRoomManager;
+
+      function load() {
+        gameRoomManager = new GameRoomManager("http://localhost:1234", "testRoomID222", "sparkShen");
+        console.log("onload");
+      }
+
+      function changeStrokeColor(colorCode) {
+        gameRoomManager.changeStrokeColor(colorCode);
+      }
+      
+    </script>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

@@ -1,12 +1,37 @@
 class NetworkManager {
-	constructor() {
+	constructor(serverAddress, roomID, myUserID) {
+		this.serverAddress = serverAddress;
+		this.roomID = roomID;
+		this.myUserID = myUserID;
+
 		this.socket_drawing = null;
 		this.socket_chat = null;
-		this.roomID = "testingRoomID45";
+		this.socket_system = null;
 	}
 
-	registerServer_drawing(serverAddress, callback_startDrawing, callback_drawPoint, callback_endDrawing, callback_undoDrawing, callback_clearDrawing) {
-		this.socket_drawing = io.connect(serverAddress);
+	registerChannel_system(callback_system) {
+		this.socket_system = io.connect(serverAddress);
+		this.socket_system.emit('join', this.roomID);
+
+		this.socket_system.on('system_message', function (data) {
+			console.log(data.message.startPoint);
+			callback_system(data.message);
+		});
+	}
+
+	sendData_systemMessage(message) {
+		var data = {
+			roomID: this.roomID,
+			type: 'game_status',
+			content: message};
+
+		this.socket_system.emit('channel_system', {
+      		message: data
+    	});
+	}
+
+	registerChannel_drawing(callback_startDrawing, callback_drawPoint, callback_endDrawing, callback_undoDrawing, callback_clearDrawing) {
+		this.socket_drawing = io.connect(this.serverAddress);
 		this.socket_drawing.emit('join', this.roomID);
 
 		this.socket_drawing.on('start_drawing', function (data) {
@@ -84,16 +109,13 @@ class NetworkManager {
     	});
 	}
 
-	registerServer_chat(serverAddress, callback_newChatMessage, callback_newSystemMessage) {
-		this.socket_chat = io.connect(serverAddress);
+	registerChannel_chat(callback_newChatMessage, callback_newSystemMessage) {
+		this.socket_chat = io.connect(this.serverAddress);
 		this.socket_chat.emit('join', this.roomID);
-		
+
 		this.socket_chat.on('chat_message', function (data) {
 			console.log(data.message);
 			callback_newChatMessage(data.message);
-		});
-		this.socket_chat.on('system_message', function (data) {
-
 		});
 	}
 
