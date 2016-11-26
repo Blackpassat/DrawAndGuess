@@ -14,12 +14,14 @@ const GAME_STATUS = {
 
 var networkManager;
 var gameRoom;
-var clock
+var clock;
+var roomID;
+var myUserID;
 
 class GameRoomManager {
-	constructor(serverAddress, roomID, myUserID) {
-		this.roomID = roomID;
-		this.myUserID = myUserID;
+	constructor(serverAddress, xRoomID, xMyUserID) {
+		roomID = xRoomID;
+		myUserID = xMyUserID;
 		leaveGameButton.disabled = true;
 
 		networkManager = new NetworkManager(serverAddress, roomID, myUserID);
@@ -94,9 +96,10 @@ function setupGameRoom() {
 	xmlHttp.onreadystatechange = function() {
 		if (xmlHttp.readyState == 4 && xmlHttp.responseText != null) {
 			console.log("Current Player: " + xmlHttp.responseText);
-		    if (xmlHttp.responseText != "myUserId") {
-		    	clock = new Clock();
+		    if (xmlHttp.responseText == myUserID) {
+		    	// TODO: GET Question from response
 		    	gameRoom.changeUIToDrawer("BAT MAN VS SUPER MAN");
+		    	clock = new Clock();
 		    } else {
 		    	// Highlight current player
 		    	gameRoom.changeUIToGuesser();
