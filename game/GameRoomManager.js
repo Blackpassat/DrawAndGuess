@@ -183,6 +183,8 @@ function requestGameResult() {
 		    var gameResultArray = JSON.parse(xmlHttp.responseText);
 		    console.log(gameResultArray);
 		    gameRoom.changeUIToGameEnd(gameResultArray);
+	    	startGameButton.disabled = false;
+			leaveGameButton.disabled = true;
 		    hideLoadingPage();
 		}
 	}
