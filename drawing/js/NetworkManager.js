@@ -1,11 +1,40 @@
 class NetworkManager {
-	constructor() {
+	constructor(serverAddress, roomID, myUserID, myUserName) {
+		this.serverAddress = serverAddress;
+		this.roomID = roomID;
+		this.myUserID = myUserID;
+		this.myUserName = myUserName;
+
 		this.socket_drawing = null;
 		this.socket_chat = null;
+		this.socket_system = null;
 	}
 
-	registerServer_drawing(serverAddress, callback_startDrawing, callback_drawPoint, callback_endDrawing, callback_undoDrawing, callback_clearDrawing) {
-		this.socket_drawing = io.connect(serverAddress);
+	registerChannel_system(callback_system) {
+		this.socket_system = io.connect(this.serverAddress);
+		this.socket_system.emit('join', this.roomID);
+
+		this.socket_system.on('game_status', function (data) {
+			console.log(data.message);
+			callback_system(data.message);
+		});
+	}
+
+	sendData_systemMessage(message) {
+		var data = {
+			roomID: this.roomID,
+			type: 'game_status',
+			content: message};
+		
+		this.socket_system.emit('channel_system', {
+      		message: data
+    	});
+	}
+
+	registerChannel_drawing(callback_startDrawing, callback_drawPoint, callback_endDrawing, callback_undoDrawing, callback_clearDrawing) {
+		this.socket_drawing = io.connect(this.serverAddress);
+		this.socket_drawing.emit('join', this.roomID);
+
 		this.socket_drawing.on('start_drawing', function (data) {
 			console.log(data.message.startPoint);
 			callback_startDrawing(data.message.strokeStyle, data.message.startPoint);
@@ -31,6 +60,7 @@ class NetworkManager {
 
 	sendData_startDrawing(point) {
 		var data = {
+			roomID: this.roomID,
 			type: 'draw_point',
 			content: point};
 		if(!this.socket_drawing) return;
@@ -41,6 +71,7 @@ class NetworkManager {
 
 	sendData_start(strokeStyle, startPoint) {
 		var data = {
+			roomID: this.roomID,
 			type: 'start_drawing',
 			content: {strokeStyle: strokeStyle, startPoint: startPoint}};
 		if(!this.socket_drawing) return;
@@ -51,6 +82,7 @@ class NetworkManager {
 
 	sendData_endDrawing() {
 		var data = {
+			roomID: this.roomID,
 			type: 'end_drawing'};
 		if(!this.socket_drawing) return;
 		this.socket_drawing.emit('channel_drawing', {
@@ -60,6 +92,7 @@ class NetworkManager {
 
 	sendData_undoDrawing() {
 		var data = {
+			roomID: this.roomID,
 			type: 'undo_drawing'};
 		if(!this.socket_drawing) return;
 		this.socket_drawing.emit('channel_drawing', {
@@ -69,6 +102,7 @@ class NetworkManager {
 
 	sendData_clearDrawing() {
 		var data = {
+			roomID: this.roomID,
 			type: 'clear_drawing'};
 		if(!this.socket_drawing) return;
 		this.socket_drawing.emit('channel_drawing', {
@@ -76,28 +110,36 @@ class NetworkManager {
     	});
 	}
 
-	registerServer_chat(serverAddress, callback_newChatMessage, callback_newSystemMessage) {
-		this.socket_chat = io.connect(serverAddress);
+	registerChannel_chat(callback_newChatMessage, callback_newSystemMessage) {
+		this.socket_chat = io.connect(this.serverAddress);
+		this.socket_chat.emit('join', this.roomID);
+
 		this.socket_chat.on('chat_message', function (data) {
 			console.log(data.message);
 			callback_newChatMessage(data.message);
 		});
-		this.socket_chat.on('system_message', function (data) {
-
-		});
 	}
 
 	sendData_chatMessage(message) {
+		var messageWithName = this.myUserName + ": " + message;
 		var data = {
+			roomID: this.roomID,
 			type: 'chat_message',
-			content: message};
+			content: messageWithName};
 		this.socket_chat.emit('channel_chat', {
       		message: data
     	});
 	}
 
 	sendData_guessAnswer(answer) {
-
+		var messageWithName = this.myUserName + "'s guess: " + answer;
+		var data = {
+			roomID: this.roomID,
+			type: 'chat_message',
+			content: messageWithName};
+		this.socket_chat.emit('channel_chat', {
+      		message: data
+    	});
 	}
 
 }

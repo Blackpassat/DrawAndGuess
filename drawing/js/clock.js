@@ -1,4 +1,17 @@
-var timeWarning = 40;
+var timeWarning = 10;
+
+class Clock {
+  constructor(deadline, callback) {
+    this.deadline = deadline;
+    initializeClock('clockdiv', deadline, callback);
+  }
+
+  isTimeout() {
+    var t = getTimeRemaining(this.deadline);
+    console.log(t);
+    return (t.total <= 1000);
+  }
+}
 
 function getTimeRemaining(endtime) {
   var t = Date.parse(endtime) - Date.parse(new Date());
@@ -15,7 +28,7 @@ function getTimeRemaining(endtime) {
   };
 }
 
-function initializeClock(id, endtime) {
+function initializeClock(id, endtime, callback) {
   var clock = document.getElementById(id);
   var minutesSpan = clock.querySelector('.minutes');
   var secondsSpan = clock.querySelector('.seconds');
@@ -38,22 +51,21 @@ function initializeClock(id, endtime) {
     minutesSpan.innerHTML = minuteDisplay;
     secondsSpan.innerHTML = secondDisplay;
 
-    if (t.total <= 0) {
+    if (t.total <= 1000) {
       clearInterval(timeinterval);
       clearInterval(twinkleinterval);
+      clearInterval(callbackTimeInterval);
     }
   }
 
   function twinkle() {
     if (shouldTwinkle) {
-      minutesSpan.style.display = 'none';
-      secondsSpan.style.display = 'none';
+      // minutesSpan.style.display = 'none';
+      // secondsSpan.style.display = 'none';
     }
   }
 
   updateClock();
   var timeinterval = setInterval(updateClock, 500);
+  var callbackTimeInterval = setInterval(callback, 1000);
 }
-console.log("Hello, I am here");
-var deadline = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
-initializeClock('clockdiv', deadline);
