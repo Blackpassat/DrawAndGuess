@@ -9,6 +9,7 @@ var strokeWidthChanger = document.getElementById('strokeWidthChanger');
 var questionArea = document.getElementById('questionArea');
 var questionLabel = document.getElementById('questionLabel');
 var currentUsersList = document.getElementById('currentUsersList');
+var gameResultList = document.getElementById('gameResultList');
 
 var networkManager = null;
 var strokeManager = new StrokeManager(canvas);
@@ -173,8 +174,15 @@ class GameRoom {
 		isGuesser = true;
 	}
 
-	changeUIToGameEnd() {
-		//
+	changeUIToGameEnd(gameResultArray) {
+		gameResultList.innerHTML = "";
+		for (var i = 0; i < gameResultArray.length; i++) {
+			var result = gameResultArray[i] + " - Score: " + gameResultArray[++i];
+			gameResultList.innerHTML += "<li class=\"list-group-item list-group-item-default\">" 
+											+ "<i class=\"fa fa-user-circle-o\" aria-hidden=\"true\" style=\"padding-right: 10px\"></i>" 
+											+ result + "</li>";
+		}
+		document.getElementById("gameEnd").click();
 		console.log("Game End!");
 	}
 
