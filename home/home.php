@@ -256,6 +256,18 @@
           document.getElementById("searchDeclinedRequest").innerHTML = "";
       }
 
+      function getGameRoom() {
+        var xmlHttp;
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+          document.getElementById("gameRooms").innerHTML = xmlHttp.responseText;
+        }
+        var url = "getRoom.php";
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send(null);
+      }
+
+
       $(document).ready(function() {
           var data = [];
           
@@ -264,9 +276,6 @@
          /* data.push({ label: 'haha', value: 'haha'});
           data.push({ label: 'hehe', value: 'hehe'});
           data.push({ label: 'hihi', value: 'hihi'});*/
-          /*<?php
-          echo "data.push({ label: \"".$_SESSION["userName"]." haha hehe hihi\", value: \"hihi\"});";
-          ?>*/
           <?php
           $conn = mysqli_connect("localhost", "root", "1.8Turbo","drawandguess");
           if ($conn->connect_error)  {
@@ -314,7 +323,7 @@
  
       $(document).ready(function() {
         $('#example-large-dataprovider').multiselect({
-            buttonWidth: '70%',
+            buttonWidth: '850px',
             maxHeight: 300,
             enableCaseInsensitiveFiltering: true,
             numberDisplayed: 10,
@@ -323,14 +332,10 @@
       });
     });
 
-      function updateFriendList() {
-        document.getElementById("friendList").innerHTML = "<option value=\"laba\">laba</option>";
-      }
-
     </script>
   </head>
 
-  <body>
+  <body onload="getGameRoom()">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -388,13 +393,15 @@
           
         </div>
         
-          <h1 class="page-header">Game Rooms</h1>
+          <h1 class="page-header">Game Rooms<button class="btn btn-info btn-lg" onClick="getGameRoom()" style="float: right;">Refresh</button></h1>          
 
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
+          <div class="row placeholders" id="gameRooms">
+            <!-- <div class="col-xs-6 col-sm-3 placeholder">
+              <a href="createRoom.php">
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
               <h4>Label</h4>
               <span class="text-muted">Something else</span>
+              </a>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
@@ -410,7 +417,8 @@
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
               <h4>Label</h4>
               <span class="text-muted">Something else</span>
-            </div>
+            </div> -->
+
           </div>
 
           <h1 class="page-header">Create Game Room</h1>
@@ -445,10 +453,30 @@
                 <option value="onions">Onions</option>
             </select> 
             &nbsp;&nbsp;<button class="btn btn-info" type="button" id="example-large-dataprovider-button" style="width: 15%">Update Friend List</button> -->
-            
-            <select id="example-large-dataprovider" name="selectedFriend[]" multiple="multiple"></select>
-            <button class="btn btn-info" value="Refresh Page" onClick="window.location.reload()" style="width:12%">Refresh</button>
-            <button class="btn btn-success" onClick="" style="width:12%">Create</button>
+            <form method="GET" action="createRoom.php">
+            <div class="row">
+              <div class="col-lg-9">
+                <div class="input-group">
+              <select id="example-large-dataprovider" name="selectedFriend[]" multiple="multiple"></select>
+              <span class="input-group-btn" >
+              <button class="btn btn-info" value="Refresh Page" onClick="window.location.reload()" style="width:100px">Refresh</button>
+              </span>
+              </div>
+              </div>
+              </div>
+              <br>
+            <div class="row">
+              <div class="col-lg-9">
+                <div class="input-group">
+                  <input type="text" name="roomName" class="form-control" pattern="^[a-zA-Z0-9]{1,30}$" placeholder="Please type a name for your room" required style="width:850px" />
+                  <span class="input-group-btn" >
+                  <button class="btn btn-success" type="submit" style="width:100px">Create</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            </form>
           </div>
         </div>
       </div>
