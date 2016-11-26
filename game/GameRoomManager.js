@@ -91,7 +91,8 @@ function startGame() {
 		    networkManager.sendData_systemMessage(GAME_STATUS.START);
 		}
 	}
-	xmlHttp.open("GET", "http://localhost/dummy/startGame.php", true);
+	var url = "http://localhost/DrawAndGuess/startGame.php?roomId=" + roomID; 
+	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
 
@@ -148,7 +149,8 @@ function setupGameRoom(shouldChangePlayer) {
 		    hideLoadingPage();
 		}
 	}
-	xmlHttp.open("GET", "http://localhost/dummy/currentPlayer.php", true);
+	var url = "http://localhost/DrawAndGuess/currentPlayer.php?roomId=" + roomID + "&isFirstUser=" + true; 
+	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
 
@@ -171,7 +173,8 @@ function sendGuess() {
 			networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
 		}
 	}
-	xmlHttp.open("GET", "http://localhost/dummy/checkGuessResult.php", true);
+	var url = "http://localhost/DrawAndGuess/checkGuessResult.php?roomId=" + roomID + "&userId=" + myUserID + "&guess=" + guess; 
+	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
 
@@ -188,7 +191,8 @@ function requestGameResult() {
 		    hideLoadingPage();
 		}
 	}
-	xmlHttp.open("GET", "http://localhost/dummy/gameResult.php", true);
+	var url = "http://localhost/DrawAndGuess/getGameResult.php?roomId=" + roomID; 
+	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
 
@@ -210,7 +214,8 @@ function enterGameRoom (roomID, userID) {
 		    hideLoadingPage();
 		}
 	}
-	xmlHttp.open("GET", "http://localhost/dummy/insertNewCurrentUser.php", true);
+	var url = "http://localhost/DrawAndGuess/insertNewCurrentUser.php?roomId=" + roomID + "&userId=" + myUserID; 
+	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
 
@@ -225,6 +230,7 @@ function updateCurrentUserList () {
 		    gameRoom.updateCurrentUsersListUI(usernamesArray);
 		}
 	}
-	xmlHttp.open("GET", "http://localhost/dummy/queryCurrentUser.php", true);
+	var url = "http://localhost/DrawAndGuess/queryCurrentUser.php?roomId=" + roomID; 
+	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
