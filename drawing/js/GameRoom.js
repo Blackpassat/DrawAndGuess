@@ -154,14 +154,17 @@ class GameRoom {
 
 	// Update UI according to the game status
 	changeUIToDrawer(question) {
+		moveToNextRound();
 		questionArea.style.display = 'block';
 		questionLabel.style.display = 'block';
 		questionLabel.innerText = question;
 		sendGuessButton.disabled = true;
 		isGuesser = false;
+
 	}
 
 	changeUIToGuesser() {
+		moveToNextRound();
 		questionArea.style.display = 'none';
 		questionLabel.style.display = 'none';
 		sendGuessButton.disabled = false;
@@ -172,4 +175,10 @@ class GameRoom {
 		//
 		console.log("Game End!");
 	}
+}
+
+function moveToNextRound() {
+	messagePool = new MessagePool();
+	messagePool.pushMessage("Next Round Begins...");
+	strokeManager.clearDrawing();
 }

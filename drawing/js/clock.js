@@ -1,4 +1,4 @@
-var timeWarning = 40;
+var timeWarning = 10;
 
 class Clock {
   constructor(deadline, callback) {

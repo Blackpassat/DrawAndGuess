@@ -122,11 +122,12 @@ function setupGameRoom(shouldChangePlayer) {
 				gameRoom.changeUIToGameEnd();
 			} else if (userID == myUserID && question != null) {
 				gameRoom.changeUIToDrawer(question);
-		    	clock = new Clock(new Date(Date.parse(new Date()) + gameTimeForEachRound * 60 * 1000), gameRoundTimeout);
 		    } else {
 		    	// Highlight current player
 		    	gameRoom.changeUIToGuesser();
 		    }
+		    // both the guesser and drawer should see the timer
+		    clock = new Clock(new Date(Date.parse(new Date()) + gameTimeForEachRound * 60 * 1000), gameRoundTimeout);
 		    hideLoadingPage();
 		}
 	}
