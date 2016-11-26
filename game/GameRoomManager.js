@@ -113,7 +113,9 @@ function setupGameRoom() {
 }
 
 function gameRoundTimeout() {
-	console.log("Game Round Time Out!");
+	if (clock != null && clock.isTimeout()) {
+		console.log("Game Round Time Out!");
+	}
 }
 
 // Update database on the server side

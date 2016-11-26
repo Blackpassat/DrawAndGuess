@@ -2,7 +2,13 @@ var timeWarning = 40;
 
 class Clock {
   constructor(deadline, callback) {
+    this.deadline = deadline;
     initializeClock('clockdiv', deadline, callback);
+  }
+
+  isTimeout() {
+    var t = getTimeRemaining(this.deadline);
+    return (t.total <= 0);
   }
 }
 
