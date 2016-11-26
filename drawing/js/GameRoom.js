@@ -108,7 +108,6 @@ class GameRoom {
 			if (isGuesser) return;
 			var chatInput = document.getElementById('chatInput');
 			if (chatInput.value != "") {
-				messagePool.pushMessage(chatInput.value);
 				networkManager.sendData_chatMessage(chatInput.value);
 				chatInput.value = "";
 			}
@@ -168,5 +167,10 @@ class GameRoom {
 		questionLabel.style.display = 'none';
 		sendGuessButton.disabled = false;
 		isGuesser = true;
+	}
+
+	changeUIToGameEnd() {
+		//
+		console.log("Game End!");
 	}
 }

@@ -17,15 +17,17 @@ var gameRoom;
 var clock;
 var roomID;
 var myUserID;
+var myUserName;
 var joinedRoom = false;
 
 class GameRoomManager {
-	constructor(serverAddress, xRoomID, xMyUserID) {
+	constructor(serverAddress, xRoomID, xMyUserID, xMyUserName) {
 		roomID = xRoomID;
 		myUserID = xMyUserID;
+		myUserName = xMyUserName;
 		leaveGameButton.disabled = true;
 
-		networkManager = new NetworkManager(serverAddress, roomID, myUserID);
+		networkManager = new NetworkManager(serverAddress, roomID, myUserID, xMyUserName);
 		gameRoom = new GameRoom(networkManager);
 
 		startGameButton.onclick = startGame;
@@ -48,7 +50,7 @@ class GameRoomManager {
 				break;
 			case GAME_STATUS.START:
 				prepareGameUI();
-				setupGameRoom();
+				setupGameRoom(false);
 				break;
 			case GAME_STATUS.USER_ONLINE:
 				updateCurrentUserList();
@@ -95,11 +97,17 @@ function prepareGameUI() {
 	gameRoom.prepareForGame();
 }
 
-function setupGameRoom() {
+function setupGameRoom(shouldChangePlayer) {
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
-		if (xmlHttp.readyState == 4 && xmlHttp.responseText != null) {
+		if (xmlHttp.readyState == 4) {
+			// When the current player is null, means 
+			if (xmlHttp.responseText == null) {
+				console.log("Game End!");
+				gameRoom.changeUIToGameEnd();
+			}
+
 			console.log("Current Player: " + xmlHttp.responseText);
 		    if (xmlHttp.responseText != myUserID) {
 		    	// TODO: GET Question from response
@@ -118,10 +126,12 @@ function setupGameRoom() {
 }
 
 function gameRoundTimeout() {
-	if (clock != null && clock.isTimeout()) {
-		console.log("Game Round Time Out!");
-		networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
-	}
+	if (clock == null || !clock.isTimeout()) return;
+
+	console.log("Game Round Time Out!");
+	networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
+
+	setupGameRoom(true);
 }
 
 // Update database on the server side

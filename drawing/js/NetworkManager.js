@@ -1,8 +1,9 @@
 class NetworkManager {
-	constructor(serverAddress, roomID, myUserID) {
+	constructor(serverAddress, roomID, myUserID, myUserName) {
 		this.serverAddress = serverAddress;
 		this.roomID = roomID;
 		this.myUserID = myUserID;
+		this.myUserName = myUserName;
 
 		this.socket_drawing = null;
 		this.socket_chat = null;
@@ -120,10 +121,11 @@ class NetworkManager {
 	}
 
 	sendData_chatMessage(message) {
+		var messageWithName = this.myUserName + ": " + message;
 		var data = {
 			roomID: this.roomID,
 			type: 'chat_message',
-			content: message};
+			content: messageWithName};
 		this.socket_chat.emit('channel_chat', {
       		message: data
     	});
