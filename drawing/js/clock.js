@@ -1,9 +1,8 @@
 var timeWarning = 40;
 
 class Clock {
-  constructor() {
-    var deadline = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
-    initializeClock('clockdiv', deadline);
+  constructor(deadline, callback) {
+    initializeClock('clockdiv', deadline, callback);
   }
 }
 
@@ -22,7 +21,7 @@ function getTimeRemaining(endtime) {
   };
 }
 
-function initializeClock(id, endtime) {
+function initializeClock(id, endtime, callback) {
   var clock = document.getElementById(id);
   var minutesSpan = clock.querySelector('.minutes');
   var secondsSpan = clock.querySelector('.seconds');
@@ -48,6 +47,7 @@ function initializeClock(id, endtime) {
     if (t.total <= 0) {
       clearInterval(timeinterval);
       clearInterval(twinkleinterval);
+      clearInterval(callbackTimeInterval);
     }
   }
 
@@ -60,4 +60,5 @@ function initializeClock(id, endtime) {
 
   updateClock();
   var timeinterval = setInterval(updateClock, 500);
+  var callbackTimeInterval = setInterval(callback, 1000);
 }

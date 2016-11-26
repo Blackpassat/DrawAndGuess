@@ -96,10 +96,11 @@ function setupGameRoom() {
 	xmlHttp.onreadystatechange = function() {
 		if (xmlHttp.readyState == 4 && xmlHttp.responseText != null) {
 			console.log("Current Player: " + xmlHttp.responseText);
-		    if (xmlHttp.responseText == myUserID) {
+		    if (xmlHttp.responseText != myUserID) {
 		    	// TODO: GET Question from response
 		    	gameRoom.changeUIToDrawer("BAT MAN VS SUPER MAN");
-		    	clock = new Clock();
+		    	var time = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
+		    	clock = new Clock(time, gameRoundTimeout);
 		    } else {
 		    	// Highlight current player
 		    	gameRoom.changeUIToGuesser();
@@ -109,6 +110,10 @@ function setupGameRoom() {
 	}
 	xmlHttp.open("GET", "http://localhost/dummy/currentPlayer.php", true);
 	xmlHttp.send(null);
+}
+
+function gameRoundTimeout() {
+	console.log("Game Round Time Out!");
 }
 
 // Update database on the server side
