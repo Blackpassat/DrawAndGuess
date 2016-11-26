@@ -4,7 +4,7 @@ var loadingPage = document.getElementById('loadingPage');
 var loadingMessage = document.getElementById('loadingMessage');
 var sendGuessButton = document.getElementById('sendGuessButton');
 var guessInput = document.getElementById('guessInput');
-
+var gameTimeForEachRound = 0.5 //minutes
 
 const GAME_STATUS = {
 	PREPARE : "GAME_PREPARE",
@@ -106,19 +106,23 @@ function setupGameRoom(shouldChangePlayer) {
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
-		if (xmlHttp.readyState == 4) {
-			// When the current player is null, means 
-			if (xmlHttp.responseText == null) {
-				console.log("Game End!");
-				gameRoom.changeUIToGameEnd();
+		if (xmlHttp.readyState == 4 && xmlHttp.responseText != null) {
+			var parameters = JSON.parse(xmlHttp.responseText);
+			var userID = parameters[0];
+			var userName = parameters[1];
+			var question = parameters[2];
+			// Just in case
+			if (question == null) {
+				question = "BAT MAN VS SUPER MAN";
 			}
 
-			console.log("Current Player: " + xmlHttp.responseText);
-		    if (xmlHttp.responseText == myUserID) {
-		    	// TODO: GET Question from response
-		    	gameRoom.changeUIToDrawer("BAT MAN VS SUPER MAN");
-		    	var time = new Date(Date.parse(new Date()) + 0.2 * 60 * 1000);
-		    	clock = new Clock(time, gameRoundTimeout);
+			// When the current player is null, means game is over
+			if (userID == null) {
+				console.log("Game End!");
+				gameRoom.changeUIToGameEnd();
+			} else if (userID == myUserID && question != null) {
+				gameRoom.changeUIToDrawer(question);
+		    	clock = new Clock(new Date(Date.parse(new Date()) + gameTimeForEachRound * 60 * 1000), gameRoundTimeout);
 		    } else {
 		    	// Highlight current player
 		    	gameRoom.changeUIToGuesser();
