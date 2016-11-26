@@ -105,7 +105,6 @@ class GameRoom {
 		}
 
 		sendChatMessageButton.onclick = function sendChatMessage() {
-			if (isGuesser) return;
 			var chatInput = document.getElementById('chatInput');
 			if (chatInput.value != "") {
 				networkManager.sendData_chatMessage(chatInput.value);

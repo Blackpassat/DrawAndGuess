@@ -132,7 +132,14 @@ class NetworkManager {
 	}
 
 	sendData_guessAnswer(answer) {
-
+		var messageWithName = this.myUserName + "'s guess: " + answer;
+		var data = {
+			roomID: this.roomID,
+			type: 'chat_message',
+			content: messageWithName};
+		this.socket_chat.emit('channel_chat', {
+      		message: data
+    	});
 	}
 
 }

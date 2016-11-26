@@ -2,6 +2,9 @@ var leaveGameButton = document.getElementById('leaveGame');
 var startGameButton = document.getElementById('startGame');
 var loadingPage = document.getElementById('loadingPage');
 var loadingMessage = document.getElementById('loadingMessage');
+var sendGuessButton = document.getElementById('sendGuessButton');
+var guessInput = document.getElementById('guessInput');
+
 
 const GAME_STATUS = {
 	PREPARE : "GAME_PREPARE",
@@ -32,6 +35,7 @@ class GameRoomManager {
 
 		startGameButton.onclick = startGame;
 		leaveGameButton.onclick = leaveGame;
+		sendGuessButton.onclick = sendGuess;
 
 		networkManager.registerChannel_system(this.receiveSystemMessage);
 		enterGameRoom(roomID, myUserID);
@@ -57,6 +61,7 @@ class GameRoomManager {
 				break;
 			case GAME_STATUS.CHANGE_PLAYER:
 				showLoadingPage("Next Round...");
+				setupGameRoom(true);
 				break;
 			default:
 				// statements_def
@@ -109,7 +114,7 @@ function setupGameRoom(shouldChangePlayer) {
 			}
 
 			console.log("Current Player: " + xmlHttp.responseText);
-		    if (xmlHttp.responseText != myUserID) {
+		    if (xmlHttp.responseText == myUserID) {
 		    	// TODO: GET Question from response
 		    	gameRoom.changeUIToDrawer("BAT MAN VS SUPER MAN");
 		    	var time = new Date(Date.parse(new Date()) + 0.2 * 60 * 1000);
@@ -130,9 +135,25 @@ function gameRoundTimeout() {
 
 	console.log("Game Round Time Out!");
 	networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
-
-	setupGameRoom(true);
 }
+
+function sendGuess() {
+	var guess = guessInput.value;
+	networkManager.sendData_guessAnswer(guess);
+	guessInput.value = '';
+
+	var xmlHttp;
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4 && xmlHttp.responseText == "correct") {
+			networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
+		}
+	}
+	xmlHttp.open("GET", "http://localhost/dummy/checkGuessResult.php", true);
+	xmlHttp.send(null);
+}
+
+
 
 // Update database on the server side
 
