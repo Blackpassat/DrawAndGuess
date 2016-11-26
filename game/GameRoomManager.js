@@ -1,6 +1,7 @@
 var leaveGameButton = document.getElementById('leaveGame');
 var startGameButton = document.getElementById('startGame');
 var loadingPage = document.getElementById('loadingPage');
+var loadingMessage = document.getElementById('loadingMessage');
 
 const GAME_STATUS = {
 	PREPARE : "GAME_PREPARE",
@@ -20,13 +21,13 @@ class GameRoomManager {
 		leaveGameButton.disabled = true;
 
 		networkManager = new NetworkManager(serverAddress, roomID, myUserID);
-		networkManager.registerChannel_system(this.receiveSystemMessage);
-
 		gameRoom = new GameRoom(networkManager);
-		clock = new Clock();
 
 		startGameButton.onclick = this.startGame;
 		leaveGameButton.onclick = this.leaveGame;
+
+		networkManager.registerChannel_system(this.receiveSystemMessage);
+		enterGameRoom(roomID, myUserID);
 	}
 
 	changeStrokeColor(colorCode) {
@@ -46,10 +47,9 @@ class GameRoomManager {
 		switch (message) {
 			case GAME_STATUS.PREPARE:
 				console.log("Prepare Game");
-				showLoadingPage();
+				showLoadingPage("Preparing Game...");
 				break;
 			case GAME_STATUS.START:
-				console.log("WElcomd to the gaem");
 				hideLoadingPage();
 				prepareGameUI();
 				break;
@@ -60,8 +60,9 @@ class GameRoomManager {
 	}
 }
 
-function showLoadingPage() {
+function showLoadingPage(message) {
 	loadingPage.style.display = 'block';
+	loadingMessage.innerText = message;
 }
 
 function hideLoadingPage() {
@@ -70,5 +71,23 @@ function hideLoadingPage() {
 
 function prepareGameUI() {
 	gameRoom.prepareForGame();
+	clock = new Clock();
+}
+
+// Update database on the server side
+
+// Insert [userID] to {currentPlayer}
+function enterGameRoom (roomID, userID) {
+	showLoadingPage("Entering Game Room...");
+
+	var xmlHttp;
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4 && xmlHttp.responseText == "success") {
+		    hideLoadingPage();
+		}
+	}
+	xmlHttp.open("GET", "http://localhost/dummy.php", true);
+	xmlHttp.send(null);
 }
 
