@@ -27,6 +27,9 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('join', function(roomID) {
+      socket.broadcast.to(roomID).emit('game_status', {
+        message: "GAME_USER_ONLINE"
+      });
       socket.join(roomID);
   });
 });

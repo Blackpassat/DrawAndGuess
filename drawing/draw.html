@@ -35,14 +35,15 @@
               <div class="col-sm-1 col-md-1" style="margin-left: 15px;">
                 <i class="fa fa-gamepad fa-3x" aria-hidden="true" style="padding-top: 4px;"></i>
               </div>
-
+ 
               <div class="col-sm-2 col-md-2" style="margin-top: 13px; text-align: left; margin-right: 10px">
-                <label style="font-size: 20px;">QUESTION: </label>
+                <label id="questionArea" style="font-size: 20px; display: none">QUESTION: </label>
               </div>
 
-              <div class="col-sm-6 col-md-6" style="margin-top: 6px; text-align: left;">
-                <h4 style="font-size: 20px;"><marquee behavior="alternate" direction="left" scrollamount="6" loop="1"> IRON MAN</marquee></h4>
+              <div class="col-sm-6 col-md-6" style="margin-top: 13px; text-align: left;">
+                <label id="questionLabel" style="font-size: 20px; display: none">IRON MAN</label>
               </div>
+
 
               <div id="clockdiv" class="col-sm-2 col-md-2" style="margin-top: 10px; padding-right: 0px">
                   <div><span class="minutes"></span></div>
@@ -132,7 +133,7 @@
                       <div class="input-group">
                           <input type="text" class="form-control" placeholder="Iron Man" id="guessInput">
                           <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
+                            <button id="sendGuessButton" class="btn btn-default" type="button">Go!</button>
                           </span>
                       </div><!-- /input-group -->
                   </p>

@@ -4,7 +4,10 @@ var undoButton = document.getElementById('undo');
 var clearButton = document.getElementById('clear');
 var saveButton = document.getElementById('save');
 var sendChatMessageButton = document.getElementById('sendChatMessageButton');
+var sendGuessButton = document.getElementById('sendGuessButton');
 var strokeWidthChanger = document.getElementById('strokeWidthChanger');
+var questionArea = document.getElementById('questionArea');
+var questionLabel = document.getElementById('questionLabel');
 
 var networkManager = null;
 var strokeManager = new StrokeManager(canvas);
@@ -12,6 +15,7 @@ var isDrawing = false;
 var startPoint = new Point(0, 0);
 var strokeStyle = new StrokeStyle("#0000FF", 10);
 var messagePool = new MessagePool();
+var isGuesser = true;
 
 class GameRoom {
 	constructor(manager) {
@@ -25,6 +29,7 @@ class GameRoom {
 		networkManager.registerChannel_chat(self.receiveChatMessage, self.receiveChatMessage);
 
 		canvas.onmousedown = function doMouseDown (evt) {
+			if (isGuesser) return;
 			if (!isDrawing) {
 				var currentPoint = self.getMouseLocationOnCanvas(evt);
 				startPoint = new Point(currentPoint.x, currentPoint.y);
@@ -35,6 +40,7 @@ class GameRoom {
 		}
 
 		canvas.onmousemove = function doMouseMove (evt) {
+			if (isGuesser) return;
 			var currentPoint = self.getMouseLocationOnCanvas(evt);
 			locationLabel.innerText = currentPoint.x + ", " + currentPoint.y;
 			if (isDrawing) {
@@ -44,6 +50,7 @@ class GameRoom {
 		}
 
 		canvas.onmouseup = function doMouseUp() {
+			if (isGuesser) return;
 			if (isDrawing) {
 				strokeManager.endDrawing();
 				networkManager.sendData_endDrawing();
@@ -52,6 +59,7 @@ class GameRoom {
 		};
 
 		canvas.onmouseout = function doMouseUp() {
+			if (isGuesser) return;
 			if (isDrawing) {
 				strokeManager.endDrawing();
 				networkManager.sendData_endDrawing();
@@ -60,11 +68,13 @@ class GameRoom {
 		};
 
 		undoButton.onclick = function undoButtonClicked () {
+			if (isGuesser) return;
 			self.undoDrawing();
 			networkManager.sendData_undoDrawing();
 		}
 
 		clearButton.onclick = function clearButtonClicked () {
+			if (isGuesser) return;
 			self.clearDrawing();
 			networkManager.sendData_clearDrawing();
 		}
@@ -88,12 +98,14 @@ class GameRoom {
 		}
 
 		strokeWidthChanger.onmousemove = function changeStrokeLineWidth () {
+			if (isGuesser) return;
 			var lineWidth = strokeWidthChanger.value;
 			strokeStyle = new StrokeStyle(strokeStyle.color, lineWidth);
 			document.getElementById('lineWidth_label').innerText = "Line Width: " + lineWidth;
 		}
 
 		sendChatMessageButton.onclick = function sendChatMessage() {
+			if (isGuesser) return;
 			var chatInput = document.getElementById('chatInput');
 			if (chatInput.value != "") {
 				messagePool.pushMessage(chatInput.value);
@@ -140,5 +152,21 @@ class GameRoom {
 
 	changeStrokeColor (color) {
 		strokeStyle = new StrokeStyle(color, strokeStyle.lineWidth);
+	}
+
+	// Update UI according to the game status
+	changeUIToDrawer(question) {
+		questionArea.style.display = 'block';
+		questionLabel.style.display = 'block';
+		questionLabel.innerText = question;
+		sendGuessButton.disabled = true;
+		isGuesser = false;
+	}
+
+	changeUIToGuesser() {
+		questionArea.style.display = 'none';
+		questionLabel.style.display = 'none';
+		sendGuessButton.disabled = false;
+		isGuesser = true;
 	}
 }
