@@ -39,6 +39,13 @@ class GameRoomManager {
 
 		networkManager.registerChannel_system(this.receiveSystemMessage);
 		enterGameRoom(roomID, myUserID);
+
+		window.onbeforeunload = function (e) {
+		  return 'Are you sure?';
+		};
+
+		window.onclose = leaveGame;
+		window.onunload = leaveGame;
 	}
 
 	changeStrokeColor(colorCode) {
@@ -63,6 +70,9 @@ class GameRoomManager {
 				showLoadingPage("Next Round...");
 				setupGameRoom(true);
 				break;
+			case GAME_STATUS.USER_OFFLINE:
+				updateCurrentUserList();
+				break;
 			default:
 				// statements_def
 				break;
@@ -84,7 +94,12 @@ function startGame() {
 }
 
 function leaveGame() {
-	
+	networkManager.sendData_systemMessage(GAME_STATUS.USER_OFFLINE);
+	var xmlHttp;
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.open("GET", "http://localhost/dummy/userOffline.php", true);
+	xmlHttp.send(null);
+	// TODO: Redirect back to home page
 }
 
 function showLoadingPage(message) {
