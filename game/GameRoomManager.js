@@ -39,6 +39,15 @@ class GameRoomManager {
 
 		networkManager.registerChannel_system(this.receiveSystemMessage);
 		enterGameRoom(roomID, myUserID);
+
+		window.onbeforeunload = function (e) {
+		  return 'Are you sure?';
+		};
+
+		window.onclose = leaveGame;
+		window.onunload = leaveGame;
+		// showLoadingPage();
+		// requestGameResult();
 	}
 
 	changeStrokeColor(colorCode) {
@@ -63,6 +72,9 @@ class GameRoomManager {
 				showLoadingPage("Next Round...");
 				setupGameRoom(true);
 				break;
+			case GAME_STATUS.USER_OFFLINE:
+				updateCurrentUserList();
+				break;
 			default:
 				// statements_def
 				break;
@@ -84,7 +96,12 @@ function startGame() {
 }
 
 function leaveGame() {
-	
+	networkManager.sendData_systemMessage(GAME_STATUS.USER_OFFLINE);
+	var xmlHttp;
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.open("GET", "http://localhost/dummy/userOffline.php", true);
+	xmlHttp.send(null);
+	// TODO: Redirect back to home page
 }
 
 function showLoadingPage(message) {
@@ -118,7 +135,8 @@ function setupGameRoom(shouldChangePlayer) {
 			// When the current player is null, means game is over
 			if (userID == null) {
 				console.log("Game End!");
-				gameRoom.changeUIToGameEnd();
+				requestGameResult();
+				return;
 			} else if (userID == myUserID && question != null) {
 				gameRoom.changeUIToDrawer(question);
 		    } else {
@@ -157,6 +175,22 @@ function sendGuess() {
 	xmlHttp.send(null);
 }
 
+function requestGameResult() {
+	var xmlHttp;
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4 && xmlHttp.responseText != null) {
+		    var gameResultArray = JSON.parse(xmlHttp.responseText);
+		    console.log(gameResultArray);
+		    gameRoom.changeUIToGameEnd(gameResultArray);
+	    	startGameButton.disabled = false;
+			leaveGameButton.disabled = true;
+		    hideLoadingPage();
+		}
+	}
+	xmlHttp.open("GET", "http://localhost/dummy/gameResult.php", true);
+	xmlHttp.send(null);
+}
 
 
 // Update database on the server side

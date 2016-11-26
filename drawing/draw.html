@@ -159,7 +159,8 @@
         <label id="cursorLocation"></label>
         </p>
 
-	      </center>
+	      <button id="gameEnd" type="button" data-toggle="modal" data-target="#myModal" style="display: none;"></button>
+        </center>
       </div>
     </div>
     <!-- overlay div for loading state -->
@@ -168,6 +169,21 @@
       <center><label class="loaderMessage" id="loadingMessage">Loading...</label></center>
       <center><img class="loaderImg" src="./img/Preloader_2.gif"></center>
     </div>
+
+    <center>
+      <div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog" 
+     aria-labelledby = "myModalLabel" aria-hidden = "true" style="top: 20%">
+     
+     <div class = "modal-dialog" style="width: 200;">
+        <div class = "modal-content" style="padding-bottom: 20px; padding-left: 30px; padding-right: 30px; background-image: url('img/background.png')">
+            <div class="panel-heading">GAME RESULT</div>
+                <ul class="list-group" id="gameResultList">
+                </ul>
+                <button type = "button" class = "btn btn-default" data-dismiss = "modal">Close</button>
+        </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+
+    </center>
     
     <script src="js/socket.io.js"></script>
     <script src="js/NetworkManager.js"></script>
