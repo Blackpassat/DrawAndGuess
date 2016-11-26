@@ -51,7 +51,7 @@ function initializeClock(id, endtime, callback) {
     minutesSpan.innerHTML = minuteDisplay;
     secondsSpan.innerHTML = secondDisplay;
 
-    if (t.total <= 0) {
+    if (t.total <= 1000) {
       clearInterval(timeinterval);
       clearInterval(twinkleinterval);
       clearInterval(callbackTimeInterval);
@@ -60,8 +60,8 @@ function initializeClock(id, endtime, callback) {
 
   function twinkle() {
     if (shouldTwinkle) {
-      minutesSpan.style.display = 'none';
-      secondsSpan.style.display = 'none';
+      // minutesSpan.style.display = 'none';
+      // secondsSpan.style.display = 'none';
     }
   }
 
