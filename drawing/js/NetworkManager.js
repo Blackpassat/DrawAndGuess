@@ -10,11 +10,11 @@ class NetworkManager {
 	}
 
 	registerChannel_system(callback_system) {
-		this.socket_system = io.connect(serverAddress);
+		this.socket_system = io.connect(this.serverAddress);
 		this.socket_system.emit('join', this.roomID);
 
-		this.socket_system.on('system_message', function (data) {
-			console.log(data.message.startPoint);
+		this.socket_system.on('game_status', function (data) {
+			console.log(data.message);
 			callback_system(data.message);
 		});
 	}
@@ -24,7 +24,7 @@ class NetworkManager {
 			roomID: this.roomID,
 			type: 'game_status',
 			content: message};
-
+		
 		this.socket_system.emit('channel_system', {
       		message: data
     	});

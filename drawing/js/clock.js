@@ -1,5 +1,12 @@
 var timeWarning = 40;
 
+class Clock {
+  constructor() {
+    var deadline = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
+    initializeClock('clockdiv', deadline);
+  }
+}
+
 function getTimeRemaining(endtime) {
   var t = Date.parse(endtime) - Date.parse(new Date());
   var seconds = Math.floor((t / 1000) % 60);
@@ -54,6 +61,3 @@ function initializeClock(id, endtime) {
   updateClock();
   var timeinterval = setInterval(updateClock, 500);
 }
-console.log("Hello, I am here");
-var deadline = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
-initializeClock('clockdiv', deadline);
