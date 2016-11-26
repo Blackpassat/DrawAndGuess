@@ -8,7 +8,8 @@ class Clock {
 
   isTimeout() {
     var t = getTimeRemaining(this.deadline);
-    return (t.total <= 0);
+    console.log(t);
+    return (t.total <= 1000);
   }
 }
 

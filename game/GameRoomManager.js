@@ -17,6 +17,7 @@ var gameRoom;
 var clock;
 var roomID;
 var myUserID;
+var joinedRoom = false;
 
 class GameRoomManager {
 	constructor(serverAddress, xRoomID, xMyUserID) {
@@ -39,6 +40,7 @@ class GameRoomManager {
 	}
 
 	receiveSystemMessage (message) {
+		console.log("GameRoomManager: " + message);
 		switch (message) {
 			case GAME_STATUS.PREPARE:
 				console.log("Prepare Game");
@@ -50,6 +52,9 @@ class GameRoomManager {
 				break;
 			case GAME_STATUS.USER_ONLINE:
 				updateCurrentUserList();
+				break;
+			case GAME_STATUS.CHANGE_PLAYER:
+				showLoadingPage("Next Round...");
 				break;
 			default:
 				// statements_def
@@ -99,7 +104,7 @@ function setupGameRoom() {
 		    if (xmlHttp.responseText != myUserID) {
 		    	// TODO: GET Question from response
 		    	gameRoom.changeUIToDrawer("BAT MAN VS SUPER MAN");
-		    	var time = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
+		    	var time = new Date(Date.parse(new Date()) + 0.2 * 60 * 1000);
 		    	clock = new Clock(time, gameRoundTimeout);
 		    } else {
 		    	// Highlight current player
@@ -115,6 +120,7 @@ function setupGameRoom() {
 function gameRoundTimeout() {
 	if (clock != null && clock.isTimeout()) {
 		console.log("Game Round Time Out!");
+		networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
 	}
 }
 
@@ -128,6 +134,10 @@ function enterGameRoom (roomID, userID) {
 	xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
 		if (xmlHttp.readyState == 4 && xmlHttp.responseText == "success") {
+			if (!joinedRoom) {
+				networkManager.sendData_systemMessage(GAME_STATUS.USER_ONLINE);
+				joinedRoom = true;
+			}
 		    hideLoadingPage();
 		}
 	}
@@ -150,4 +160,3 @@ function updateCurrentUserList () {
 	xmlHttp.open("GET", "http://localhost/dummy/queryCurrentUser.php", true);
 	xmlHttp.send(null);
 }
-
