@@ -8,6 +8,7 @@ var sendGuessButton = document.getElementById('sendGuessButton');
 var strokeWidthChanger = document.getElementById('strokeWidthChanger');
 var questionArea = document.getElementById('questionArea');
 var questionLabel = document.getElementById('questionLabel');
+var currentUsersList = document.getElementById('currentUsersList');
 
 var networkManager = null;
 var strokeManager = new StrokeManager(canvas);
@@ -16,6 +17,7 @@ var startPoint = new Point(0, 0);
 var strokeStyle = new StrokeStyle("#0000FF", 10);
 var messagePool = new MessagePool();
 var isGuesser = true;
+var currentUsersArray;
 
 class GameRoom {
 	constructor(manager) {
@@ -174,6 +176,29 @@ class GameRoom {
 	changeUIToGameEnd() {
 		//
 		console.log("Game End!");
+	}
+
+	updateCurrentUsersListUI(nameArray) {
+		currentUsersArray = nameArray
+		currentUsersList.innerHTML = "";
+		for (var i = 0; i < currentUsersArray.length; i++) {
+			currentUsersList.innerHTML += "<li class=\"list-group-item list-group-item-default\">" 
+											+ "<i class=\"fa fa-user-circle-o\" aria-hidden=\"true\" style=\"padding-right: 10px\"></i>" 
+											+ currentUsersArray[i] + "</li>";
+		}
+	}
+
+	highlightCurrentPlayer(userName) {
+		currentUsersList.innerHTML = "";
+		for (var i = 0; i < currentUsersArray.length; i++) {
+			var style = "default";
+			if (currentUsersArray[i] == userName) {
+				style = "success";
+			}
+			currentUsersList.innerHTML += "<li class=\"list-group-item list-group-item-" + style +"\">" 
+											+ "<i class=\"fa fa-user-circle-o\" aria-hidden=\"true\" style=\"padding-right: 10px\"></i>" 
+											+ currentUsersArray[i] + "</li>";
+		}
 	}
 }
 

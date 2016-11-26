@@ -115,7 +115,6 @@ function setupGameRoom(shouldChangePlayer) {
 			if (question == null) {
 				question = "BAT MAN VS SUPER MAN";
 			}
-
 			// When the current player is null, means game is over
 			if (userID == null) {
 				console.log("Game End!");
@@ -123,8 +122,8 @@ function setupGameRoom(shouldChangePlayer) {
 			} else if (userID == myUserID && question != null) {
 				gameRoom.changeUIToDrawer(question);
 		    } else {
-		    	// Highlight current player
 		    	gameRoom.changeUIToGuesser();
+		    	gameRoom.highlightCurrentPlayer(userName);
 		    }
 		    // both the guesser and drawer should see the timer
 		    clock = new Clock(new Date(Date.parse(new Date()) + gameTimeForEachRound * 60 * 1000), gameRoundTimeout);
@@ -187,10 +186,9 @@ function updateCurrentUserList () {
 	xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
 		if (xmlHttp.readyState == 4 && xmlHttp.responseText != null) {
-			console.log(xmlHttp.responseText);
-		    var id_numbers = JSON.parse(xmlHttp.responseText);
-		    console.log(id_numbers);
-		    // Update UI
+		    var usernamesArray = JSON.parse(xmlHttp.responseText);
+		    console.log(usernamesArray);
+		    gameRoom.updateCurrentUsersListUI(usernamesArray);
 		}
 	}
 	xmlHttp.open("GET", "http://localhost/dummy/queryCurrentUser.php", true);
