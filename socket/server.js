@@ -5,7 +5,7 @@ io.sockets.on('connection', function (socket) {
     console.log(data.message.type);
     console.log(data.message.content);
     console.log(data.message.roomID);
-      socket.broadcast.to(data.message.roomID).emit(data.message.type, {
+      io.to(data.message.roomID).emit(data.message.type, {
         message: data.message.content
       });
   });
