@@ -79,6 +79,7 @@ class GameRoomManager {
 				break;
 			case GAME_STATUS.GAME_END:
 				console.log("Game End...");
+				showLoadingPage();
 				requestGameResult();
 				break;
 			default:
@@ -202,6 +203,9 @@ function moveToNextPlayer() {
 }
 
 function requestGameResult() {
+	clock.resetTimer();
+	clock = null;
+
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
@@ -211,7 +215,7 @@ function requestGameResult() {
 		    gameRoom.changeUIToGameEnd(gameResultArray);
 	    	startGameButton.disabled = false;
 			leaveGameButton.disabled = true;
-		    hideLoadingPage();
+			hideLoadingPage();
 		}
 	}
 	var url = "http://localhost/DrawAndGuess/php_queries/getGameResult.php?roomId=" + roomID; 

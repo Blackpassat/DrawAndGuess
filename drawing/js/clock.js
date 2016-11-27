@@ -5,8 +5,7 @@ var callbackTimeInterval;
 
 class Clock {
   constructor(deadline, callback) {
-    clearInterval(timeinterval);
-    clearInterval(twinkleinterval);
+    this.resetTimer();
     clearInterval(callbackTimeInterval);
     this.deadline = deadline;
     initializeClock('clockdiv', deadline, callback);
@@ -16,6 +15,12 @@ class Clock {
     var t = getTimeRemaining(this.deadline);
     console.log(t);
     return (t.total <= 1000);
+  }
+
+  resetTimer() {
+    clearInterval(timeinterval);
+    clearInterval(twinkleinterval);
+    clearInterval(callbackTimeInterval);
   }
 }
 
