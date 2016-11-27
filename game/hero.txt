@@ -1,0 +1,52 @@
+Mission: Impossible
+<Movie>
+Black Widow
+<Comic Character>
+Star War
+<Movie>
+Batman
+<Comic Character>
+Dead Pool
+<Comic Character>
+Superman
+<Comic Character>
+Iron Man
+<Comic Character>
+Spider Man
+<Comic Character>
+Thor
+<Comic Character>
+Captain America
+<Comic Character>
+Doctor Strange
+<Comic Character>
+Wolverine
+<Comic Character>
+Hulk
+<Comic Character>
+Professor X
+<Comic Character>
+Wonder Woman
+<Comic Character>
+Cat
+<Animal>
+Beijing
+<Location>
+Hong Kong
+<Location>
+Japanese
+<Location>
+Macbook
+<Electronic	Products>
+iPhone
+<Electronic	Products>
+Keyboard
+<Electronic	Products>
+Mouse
+<Electronic	Products>
+Calculator
+<Electronic	Products>
+Glass
+<Object>
+Flash
+<Comic Character>
