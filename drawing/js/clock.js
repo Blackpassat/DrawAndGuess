@@ -1,7 +1,13 @@
 var timeWarning = 10;
+var twinkleinterval
+var timeinterval;
+var callbackTimeInterval;
 
 class Clock {
   constructor(deadline, callback) {
+    clearInterval(timeinterval);
+    clearInterval(twinkleinterval);
+    clearInterval(callbackTimeInterval);
     this.deadline = deadline;
     initializeClock('clockdiv', deadline, callback);
   }
@@ -42,7 +48,7 @@ function initializeClock(id, endtime, callback) {
         minuteDisplay = "<danger>" + minuteDisplay + "</danger>";
         secondDisplay = "<danger>" + secondDisplay + "</danger>";
         if (!shouldTwinkle) {
-          var twinkleinterval = setInterval(twinkle, 1000);
+          twinkleinterval = setInterval(twinkle, 1000);
           shouldTwinkle = true;
         }
     }
@@ -51,7 +57,7 @@ function initializeClock(id, endtime, callback) {
     minutesSpan.innerHTML = minuteDisplay;
     secondsSpan.innerHTML = secondDisplay;
 
-    if (t.total <= 1000) {
+    if (t.total <= 0) {
       clearInterval(timeinterval);
       clearInterval(twinkleinterval);
       clearInterval(callbackTimeInterval);
@@ -60,12 +66,12 @@ function initializeClock(id, endtime, callback) {
 
   function twinkle() {
     if (shouldTwinkle) {
-      // minutesSpan.style.display = 'none';
-      // secondsSpan.style.display = 'none';
+      minutesSpan.style.display = 'none';
+      secondsSpan.style.display = 'none';
     }
   }
 
   updateClock();
-  var timeinterval = setInterval(updateClock, 500);
-  var callbackTimeInterval = setInterval(callback, 1000);
+  timeinterval = setInterval(updateClock, 500);
+  callbackTimeInterval = setInterval(callback, 500);
 }
