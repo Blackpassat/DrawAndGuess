@@ -81,7 +81,7 @@
    	} 
 
    $conn->close();
-
+//give buffer time for demonstration
    //sleep(2);
 
    echo json_encode($parameters);

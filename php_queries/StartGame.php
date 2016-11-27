@@ -78,7 +78,7 @@
       }
 
       while ($exist) {
-         $questionId = rand(0,899);
+         $questionId = rand(0,31);
          $query = "SELECT count(questionId) from roomquestion where roomId = \"".$roomId."\" and questionId = \"".$questionId."\"";
          $result = $conn->query($query);
          if(!$result) 

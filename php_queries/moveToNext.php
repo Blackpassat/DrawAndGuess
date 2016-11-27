@@ -9,7 +9,7 @@
 	//$isFirstUser = $_GET["isFirstUser"];
 	$roomId = $_GET["roomId"];
    $removeCurrentUser = $_GET["shouldRemoveCurrentUser"];
-	
+
 	$name = array();
 	$parameters = array();
 	$id = array();
@@ -45,7 +45,7 @@
    	}
 
    	while ($exist) {
-   		$questionId = rand(0,899);
+   		$questionId = rand(0,31);
 	   	$query = "SELECT count(questionId) from roomquestion where roomId = \"".$roomId."\" and questionId = \"".$questionId."\"";
 	   	$result = $conn->query($query);
 	   	if(!$result) 
@@ -134,7 +134,7 @@
    		}	
    		
 
-         if($shouldRemoveCurrentUser == "true") {
+         if($removeCurrentUser == "true") {
             $query = "UPDATE gameuser set status = 'F' where userId = \"".$currentId."\" and roomId = \"".$roomId."\"";
             $result = $conn->query($query);
                if(!$result)
@@ -170,10 +170,8 @@
 
    	$conn->close();
 	//sleep(2);
-	// array{nextUserID, nextUserName, questionContent}
-	// *When game is over, set nextUserID to null
-	//$parameters = array("12345", "YiSha", "pirate of the caribbean");
-	//echo json_encode($parameters);
+//give buffer time for demonstration
+      //sleep(2);
       if($success)
          echo "success";
       else

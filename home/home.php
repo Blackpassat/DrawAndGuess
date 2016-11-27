@@ -500,7 +500,7 @@
            <div class = "modal-body">
               <form id="signUp" class="form-signUp" method="post" action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>' onsubmit="return check()">
                 <label>Email</label>
-                <input type="email" id="inputEmail2" name="inputEmail2" class="form-control" value="<?php echo $email;?>" readonly="readonly" required autofocus>
+                <input type="email" id="inputEmail2" name="inputEmail2" class="form-control" value="<?php echo $_SESSION["userEmail"];?>" readonly="readonly" required autofocus>
                 <label>User Name</label>
                 <input type="name" id="inputUserName" name="inputUserName" class="form-control" required>
                 <label>Password</label>
