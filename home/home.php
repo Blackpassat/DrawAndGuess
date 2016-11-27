@@ -1,6 +1,7 @@
 <?php
   session_start();
-  $conn = mysqli_connect("localhost", "root", "1.8Turbo","drawandguess");
+  if(!isset($_SESSION["userId"])) {
+    $conn = mysqli_connect("localhost", "root", "1.8Turbo","drawandguess");
    if ($conn->connect_error)  {
       echo "Unable to connect to database";
       exit;
@@ -83,6 +84,8 @@
    }
 
    $conn->close();
+  }
+  
 ?>
 
 <!DOCTYPE html>
@@ -351,7 +354,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $email; ?>&nbsp;<span class="caret"></span></a>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $_SESSION["userEmail"]; ?>&nbsp;<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-edit"></span>&nbsp;Manage Account</a></li>
                 <li><a href="logout.php?logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a></li>
@@ -388,7 +391,7 @@
           </ul> -->
         </div>
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Game History</h1>
+        <!-- <h1 class="page-header">Game History</h1> -->
         <div>
           
         </div>
