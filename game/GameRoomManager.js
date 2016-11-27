@@ -91,7 +91,7 @@ function startGame() {
 		    networkManager.sendData_systemMessage(GAME_STATUS.START);
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/startGame.php?roomId=" + roomID; 
+	var url = "http://localhost/DrawAndGuess/php_queries/startGame.php?roomId=" + roomID; 
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
@@ -100,9 +100,11 @@ function leaveGame() {
 	networkManager.sendData_systemMessage(GAME_STATUS.USER_OFFLINE);
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
-	xmlHttp.open("GET", "http://localhost/dummy/userOffline.php", true);
+	var url = "http://localhost/DrawAndGuess/php_queries/leaveRoom.php?roomId=" + roomID + "&userId=" + myUserID; 
+	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
-	// TODO: Redirect back to home page
+	
+	window.location = "../home/home.php";
 }
 
 function showLoadingPage(message) {
@@ -149,7 +151,7 @@ function setupGameRoom(shouldChangePlayer) {
 		    hideLoadingPage();
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/currentPlayer.php?roomId=" + roomID + "&isFirstUser=" + true; 
+	var url = "http://localhost/DrawAndGuess/php_queries/currentPlayer.php?roomId=" + roomID + "&isFirstUser=" + true; 
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
@@ -173,7 +175,7 @@ function sendGuess() {
 			networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/checkGuessResult.php?roomId=" + roomID + "&userId=" + myUserID + "&guess=" + guess; 
+	var url = "http://localhost/DrawAndGuess/php_queries/checkGuessResult.php?roomId=" + roomID + "&userId=" + myUserID + "&guess=" + guess; 
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
@@ -191,7 +193,7 @@ function requestGameResult() {
 		    hideLoadingPage();
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/getGameResult.php?roomId=" + roomID; 
+	var url = "http://localhost/DrawAndGuess/php_queries/getGameResult.php?roomId=" + roomID; 
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
@@ -214,7 +216,7 @@ function enterGameRoom (roomID, userID) {
 		    hideLoadingPage();
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/insertNewCurrentUser.php?roomId=" + roomID + "&userId=" + myUserID; 
+	var url = "http://localhost/DrawAndGuess/php_queries/insertNewCurrentUser.php?roomId=" + roomID + "&userId=" + myUserID; 
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
@@ -230,7 +232,7 @@ function updateCurrentUserList () {
 		    gameRoom.updateCurrentUsersListUI(usernamesArray);
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/queryCurrentUser.php?roomId=" + roomID; 
+	var url = "http://localhost/DrawAndGuess/php_queries/queryCurrentUser.php?roomId=" + roomID; 
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
