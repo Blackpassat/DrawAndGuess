@@ -11,6 +11,7 @@ const GAME_STATUS = {
     START : "GAME_START",
     CHANGE_PLAYER : "GAME_CHANGE_PLAYER",
     TIMEOUT : "GAME_TIMEOUT",
+    GAME_END : "GAME_END",
     USER_ONLINE : "GAME_USER_ONLINE",
     USER_OFFLINE : "GAME_USER_OFFLINE"
 }
@@ -76,6 +77,10 @@ class GameRoomManager {
 			case GAME_STATUS.USER_OFFLINE:
 				updateCurrentUserList();
 				break;
+			case GAME_STATUS.GAME_END:
+				console.log("Game End...");
+				requestGameResult();
+				break;
 			default:
 				// statements_def
 				break;
@@ -137,11 +142,7 @@ function setupGameRoom() {
 				question = "BAT MAN VS SUPER MAN";
 			}
 			// When the current player is null, means game is over
-			if (userID == null) {
-				console.log("Game End!");
-				requestGameResult();
-				return;
-			} else if (userID == myUserID && question != null) {
+			if (userID == myUserID && question != null) {
 				isDrawer = true;
 				gameRoom.changeUIToDrawer(question);
 		    } else {
@@ -187,8 +188,12 @@ function moveToNextPlayer() {
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
-		if (xmlHttp.readyState == 4 && xmlHttp.responseText == "success") {
-			networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
+		if (xmlHttp.readyState == 4) {
+			if (xmlHttp.responseText == "success") {
+				networkManager.sendData_systemMessage(GAME_STATUS.CHANGE_PLAYER);
+			} else if (xmlHttp.responseText == "No next") {
+				networkManager.sendData_systemMessage(GAME_STATUS.GAME_END);
+			}
 		}
 	}
 	var url = "http://localhost/DrawAndGuess/php_queries/moveToNext.php?roomId=" + roomID;
@@ -214,10 +219,7 @@ function requestGameResult() {
 	xmlHttp.send(null);
 }
 
-
 // Update database on the server side
-
-// Insert [userID] to {currentPlayer}
 function enterGameRoom (roomID, userID) {
 	showLoadingPage("Entering Game Room...");
 
