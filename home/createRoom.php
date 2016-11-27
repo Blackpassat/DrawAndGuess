@@ -8,7 +8,7 @@
 		echo "Unable to connect to database";
    		exit;
    	}
-   	$query = "INSERT INTO gameroom(roomId, roomName, status) VALUES (\"".$roomId."\",\"".$_GET["roomName"]."\", 'F')";
+   	$query = "INSERT INTO gameroom(roomId, roomName, status, currentUserId) VALUES (\"".$roomId."\",\"".$_GET["roomName"]."\", 'F','0')";
    	$result = $conn->query($query);
    	if(!$result)
    		$error = true;
@@ -26,5 +26,5 @@
    	if($error)
    		print("<h3>Something is wrong, please try again later.</h3>");
    	else
-   		header("Location: StartGame.php?roomId=".$row["roomId"]."&userId=".$_SESSION["userId"]."&userName=".$_SESSION["userName"]);
+   		header("Location: ../drawing/gameRoom.php?roomId=".$roomId."&userId=".$_SESSION["userId"]."&userName=".$_SESSION["userName"]);
 ?>

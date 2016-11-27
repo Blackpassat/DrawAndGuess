@@ -17,7 +17,9 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `drawandguess`
+create database drawandguess;
+
+use drawandguess;
 --
 
 -- --------------------------------------------------------
@@ -947,7 +949,7 @@ CREATE TABLE `gameroom` (
   `roomId` varchar(13) NOT NULL,
   `roomName` varchar(30) NOT NULL,
   `status` enum('T','F') NOT NULL DEFAULT 'F',
-  `currentUserId` int(11) NOT NULL,
+  `currentUserId` int(11) NOT NULL DEFAULT '0',
   `questionId` char(5) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1114,8 +1116,6 @@ ALTER TABLE `users`
 --
 -- Constraints for table `gameroom`
 --
-ALTER TABLE `gameroom`
-  ADD CONSTRAINT `gameroom_ibfk_1` FOREIGN KEY (`currentUserId`) REFERENCES `users` (`userId`);
 
 --
 -- Constraints for table `gameuser`

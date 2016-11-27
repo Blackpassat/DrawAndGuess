@@ -11,11 +11,11 @@
 
 	$conn = mysqli_connect("localhost", "root", "1.8Turbo","drawandguess");
    	if ($conn->connect_error)  {
-		echo "Unable to connect to database";
+		   echo "Unable to connect to database";
    		exit;
    	}
 
-   	$query = "SELECT userId, win from gameuser where roomId = \"".$roomId." and status = 'T'\"";
+   	$query = "SELECT userId, win from gameuser where roomId = \"".$roomId."\" and status = 'T'";
    	$result = $conn->query($query);
    	if(!$result) 
    		$errorType = 1;
@@ -29,6 +29,7 @@
    			if(!$result1) 
    				$errorType = 2;
    	} 
+   }
 
    	if (isset($errorType)) {
    		if ($errorType == 1) {

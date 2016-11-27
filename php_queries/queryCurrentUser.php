@@ -7,6 +7,7 @@
 	header('Access-Control-Allow-Headers:x-requested-with,content-type');  
 
 	$name = array();
+   $roomId = $_GET["roomId"];
 
 	$conn = mysqli_connect("localhost", "root", "1.8Turbo","drawandguess");
    	if ($conn->connect_error)  {

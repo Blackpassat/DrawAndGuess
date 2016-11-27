@@ -16,7 +16,7 @@
    		while($row1 = $result1->fetch_assoc()) {
    			if($row1["status"] == 'F') {
    				$statusinfo = "<span class=\"text-success\">available</span>";
-   				print("<div class=\"col-xs-6 col-sm-3 placeholder\"><a href=\"StartGame.php?roomId=".$row["roomId"]."&userId=".$_SESSION["userId"]."&userName=".$_SESSION["userName"]."\"><img src=\"./image/".rand(1,100).".png\" width=\"100\" height=\"100\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\"><h4>".$row1["roomName"]."</h4>".$statusinfo."</a></div>");
+   				print("<div class=\"col-xs-6 col-sm-3 placeholder\"><a href=\"../drawing/gameRoom.php?roomId=".$row["roomId"]."&userId=".$_SESSION["userId"]."&userName=".$_SESSION["userName"]."\"><img src=\"./image/".rand(1,100).".png\" width=\"100\" height=\"100\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\"><h4>".$row1["roomName"]."</h4>".$statusinfo."</a></div>");
    			}
    			else {
    				$statusinfo = "<span class=\"text-danger\">started</span>";
