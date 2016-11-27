@@ -1,8 +1,5 @@
-drop database if exists GAME_ROOM;
 
-create database GAME_ROOM;
-
-use GAME_ROOM;
+use drawandguess;
 
 create table `GameQuestions` (
    `QuestionID` char(5) NOT NULL,
