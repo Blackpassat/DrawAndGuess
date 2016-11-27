@@ -160,16 +160,19 @@ class GameRoom {
 		moveToNextRound();
 		questionArea.style.display = 'block';
 		questionLabel.style.display = 'block';
+		questionArea.innerText = "QUESTION: ";
 		questionLabel.innerText = question;
 		sendGuessButton.disabled = true;
 		isGuesser = false;
 
 	}
 
-	changeUIToGuesser() {
+	changeUIToGuesser(questionHint) {
 		moveToNextRound();
-		questionArea.style.display = 'none';
-		questionLabel.style.display = 'none';
+		questionArea.style.display = 'block';
+		questionLabel.style.display = 'block';
+		questionArea.innerText = "HINT: ";
+		questionLabel.innerText = questionHint;
 		sendGuessButton.disabled = false;
 		isGuesser = true;
 	}
@@ -177,7 +180,7 @@ class GameRoom {
 	changeUIToGameEnd(gameResultArray) {
 		questionArea.style.display = 'none';
 		questionLabel.style.display = 'none';
-		
+
 		gameResultList.innerHTML = "";
 		for (var i = 0; i < gameResultArray.length; i++) {
 			var result = gameResultArray[i] + " - Score: " + gameResultArray[++i];

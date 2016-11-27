@@ -104,13 +104,16 @@ function startGame() {
 }
 
 function leaveGame() {
+	if (isDrawer) {
+		moveToNextPlayer(true);
+	} else {
+		var xmlHttp;
+		xmlHttp = new XMLHttpRequest();
+		var url = "http://localhost/DrawAndGuess/php_queries/leaveRoom.php?roomId=" + roomID + "&userId=" + myUserID; 
+		xmlHttp.open("GET", url, true);
+		xmlHttp.send(null);
+	}
 	networkManager.sendData_systemMessage(GAME_STATUS.USER_OFFLINE);
-	var xmlHttp;
-	xmlHttp = new XMLHttpRequest();
-	var url = "http://localhost/DrawAndGuess/php_queries/leaveRoom.php?roomId=" + roomID + "&userId=" + myUserID; 
-	xmlHttp.open("GET", url, true);
-	xmlHttp.send(null);
-	
 	window.location = "../home/home.php";
 }
 
@@ -138,17 +141,22 @@ function setupGameRoom() {
 			var userID = parameters[0];
 			var userName = parameters[1];
 			var question = parameters[2];
+			var questionHint = parameters[3];
 			// Just in case
 			if (question == null) {
 				question = "BAT MAN VS SUPER MAN";
+			}
+			if (questionHint == null) {
+				questionHint = "Moview"
 			}
 			// When the current player is null, means game is over
 			if (userID == myUserID && question != null) {
 				isDrawer = true;
 				gameRoom.changeUIToDrawer(question);
+				gameRoom.highlightCurrentPlayer(userName);
 		    } else {
 		    	isDrawer = false;
-		    	gameRoom.changeUIToGuesser();
+		    	gameRoom.changeUIToGuesser(questionHint);
 		    	gameRoom.highlightCurrentPlayer(userName);
 		    }
 		    // both the guesser and drawer should see the timer
@@ -165,7 +173,7 @@ function gameRoundTimeout() {
 	if (!isDrawer || clock == null || !clock.isTimeout()) return;
 
 	console.log("Game Round Time Out!");
-	moveToNextPlayer();
+	moveToNextPlayer(false);
 }
 
 function sendGuess() {
@@ -177,7 +185,7 @@ function sendGuess() {
 	xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
 		if (xmlHttp.readyState == 4 && xmlHttp.responseText == "correct") {
-			moveToNextPlayer();
+			moveToNextPlayer(false);
 		}
 	}
 	var url = "http://localhost/DrawAndGuess/php_queries/checkGuessResult.php?roomId=" + roomID + "&userId=" + myUserID + "&guess=" + guess; 
@@ -185,7 +193,7 @@ function sendGuess() {
 	xmlHttp.send(null);
 }
 
-function moveToNextPlayer() {
+function moveToNextPlayer(shouldRemoveCurrentUser) {
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
@@ -197,7 +205,7 @@ function moveToNextPlayer() {
 			}
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/php_queries/moveToNext.php?roomId=" + roomID;
+	var url = "http://localhost/DrawAndGuess/php_queries/moveToNext.php?roomId=" + roomID  + "&shouldRemoveCurrentUser=" + shouldRemoveCurrentUser;
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
