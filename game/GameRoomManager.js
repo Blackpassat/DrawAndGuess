@@ -63,14 +63,14 @@ class GameRoomManager {
 				break;
 			case GAME_STATUS.START:
 				prepareGameUI();
-				setupGameRoom(false);
+				setupGameRoom(true);
 				break;
 			case GAME_STATUS.USER_ONLINE:
 				updateCurrentUserList();
 				break;
 			case GAME_STATUS.CHANGE_PLAYER:
 				showLoadingPage("Next Round...");
-				setupGameRoom(true);
+				setupGameRoom(false);
 				break;
 			case GAME_STATUS.USER_OFFLINE:
 				updateCurrentUserList();
@@ -151,7 +151,7 @@ function setupGameRoom(shouldChangePlayer) {
 		    hideLoadingPage();
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/php_queries/currentPlayer.php?roomId=" + roomID + "&isFirstUser=" + true; 
+	var url = "http://localhost/DrawAndGuess/php_queries/currentPlayer.php?roomId=" + roomID + "&isFirstUser=" + shouldChangePlayer; 
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
