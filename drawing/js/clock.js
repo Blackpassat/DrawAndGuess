@@ -21,6 +21,7 @@ class Clock {
     clearInterval(timeinterval);
     clearInterval(twinkleinterval);
     clearInterval(callbackTimeInterval);
+    document.getElementById('clockdiv').style.display = 'none';
   }
 }
 
@@ -41,6 +42,7 @@ function getTimeRemaining(endtime) {
 
 function initializeClock(id, endtime, callback) {
   var clock = document.getElementById(id);
+  clock.style.display = 'block';
   var minutesSpan = clock.querySelector('.minutes');
   var secondsSpan = clock.querySelector('.seconds');
   var shouldTwinkle = false;

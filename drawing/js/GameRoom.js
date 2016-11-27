@@ -175,6 +175,9 @@ class GameRoom {
 	}
 
 	changeUIToGameEnd(gameResultArray) {
+		questionArea.style.display = 'none';
+		questionLabel.style.display = 'none';
+		
 		gameResultList.innerHTML = "";
 		for (var i = 0; i < gameResultArray.length; i++) {
 			var result = gameResultArray[i] + " - Score: " + gameResultArray[++i];
