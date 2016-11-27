@@ -154,7 +154,7 @@ function setupGameRoom() {
 		    hideLoadingPage();
 		}
 	}
-	var url = "http://localhost/DrawAndGuess/php_queries/currentPlayer.php?roomId=" + roomID; 
+	var url = "http://localhost/DrawAndGuess/php_queries/getCurrent.php?roomId=" + roomID; 
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 }
