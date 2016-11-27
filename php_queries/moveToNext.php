@@ -8,6 +8,7 @@
 
 	//$isFirstUser = $_GET["isFirstUser"];
 	$roomId = $_GET["roomId"];
+   $removeCurrentUser = $_GET["shouldRemoveCurrentUser"];
 	
 	$name = array();
 	$parameters = array();
@@ -72,7 +73,7 @@
     if(!$result) 
     	$errorType = 4;
     else {
-    	$query = "SELECT QuestionContent from gamequestions where QuestionID = \"".$questionId."\"";
+    	$query = "SELECT QuestionContent, QuestionHint from gamequestions where QuestionID = \"".$questionId."\"";
     	$result = $conn->query($query);
 	   	if(!$result) 
 	   		$errorType = 5;
@@ -80,6 +81,7 @@
 	   		$result->data_seek(0);
 	   		while ($row = $result->fetch_assoc()) {
 	   			$content = $row["QuestionContent"];
+               $hint = $row["QuestionHint"];
 	   		}
 	   	}
     }
@@ -115,9 +117,6 @@
    				if(!$result1)
    					$errorType = 8;
    				else {
-   					/*array_push($parameters, $id[$idNo+1]);
-   					array_push($parameters, $name[$idNo+1]);
-   					array_push($parameters, $content);*/
                   $success = true;
    				}
    			} else {
@@ -125,9 +124,22 @@
                $success = false;
                $query1 = "UPDATE gameroom set currentUserId = '0' where roomId = \"".$roomId."\"";
                $result1 = $conn->query($query1);
+               if(!$result1)
+                  $errorType = 9;
+               $query1 = "UPDATE gameroom set status = 'F' where roomId = \"".$roomId."\"";
+               $result1 = $conn->query($query1);
+               if(!$result1)
+                  $errorType = 10;
    			}
    		}	
    		
+
+         if($shouldRemoveCurrentUser == "true") {
+            $query = "UPDATE gameuser set status = 'F' where userId = \"".$currentId."\" and roomId = \"".$roomId."\"";
+            $result = $conn->query($query);
+               if(!$result)
+                  $errorType = 11;
+         }
    	//}
 
    	if (isset($errorType)) {
@@ -145,7 +157,13 @@
    			print("Something is wrong with database ".$errorType."!");
    		} elseif ($errorType == 7) {
    			print("Something is wrong with database ".$errorType."!");
-   		} else {
+   		} elseif ($errorType == 8) {
+            print("Something is wrong with database ".$errorType."!");
+         } elseif ($errorType == 9) {
+            print("Something is wrong with database ".$errorType."!");
+         } elseif ($errorType == 10) {
+            print("Something is wrong with database ".$errorType."!");
+         } else {
    			print("Something is wrong with database ".$errorType."!");
    		}
    	} 

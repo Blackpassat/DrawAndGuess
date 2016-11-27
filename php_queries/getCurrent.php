@@ -40,7 +40,7 @@
 	   	}
 	   }
 	   	
-	   	$query = "SELECT QuestionContent from gamequestions where QuestionID = \"".$questionId."\"";
+	   	$query = "SELECT QuestionContent, QuestionHint from gamequestions where QuestionID = \"".$questionId."\"";
 	   	$result = $conn->query($query);
 	   	if(!$result) 
 	   		$errorType = 10;
@@ -48,11 +48,13 @@
 	   		$result->data_seek(0);
 	   		while ($row = $result->fetch_assoc()) {
 	   			$content = $row["QuestionContent"];
+               $hint = $row["QuestionHint"];
 	   		}   	
    		}
    		array_push($parameters, $userId);
    		array_push($parameters, $userName);
    		array_push($parameters, $content);
+         array_push($parameters, $hint);
 
    if (isset($errorType)) {
    		if ($errorType == 1) {
