@@ -26,14 +26,14 @@
    		}
    	}
 
-   	$query = "SELECT count(QuestionID) from gamequestions where $questionID = \"".$questionId."\" and QuestionContent = \"".$guess."\"";
+   	$query = "SELECT count(QuestionID) from gamequestions where QuestionID = \"".$questionId."\" and QuestionContent = \"".$guess."\"";
    	$result = $conn->query($query);
    	if(!$result) 
    		$errorType = 1;
    	else {
    		$result->data_seek(0);
    		while ($row = $result->fetch_assoc()) {
-   			$count = $row["count(userId)"];
+   			$count = $row["count(QuestionID)"];
    		}
    	}
 
