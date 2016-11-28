@@ -32,7 +32,7 @@
    	}
 
    	if($count < 2)
-   		$errorType = 1;
+   		$errorType = 9;
   	else {
    		$query = "UPDATE gameroom set status = 'T' where roomId = \"".$roomId."\"";
    		$result = $conn->query($query);
@@ -127,8 +127,8 @@
 
    	if($updateRoomStatus)
    		echo "success";
-   	elseif ($errorType == 1)
-   		echo "Not enough players to start game!";
+   	elseif ($errorType == 9)
+   		echo "Not enough player";
    	else 
    		echo "Something is wrong with database!";
 

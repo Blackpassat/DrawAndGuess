@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Draw and Guess</title>
 
     <!-- Bootstrap -->
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -98,7 +98,7 @@
           <img src="./img/loginIcon.png" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
           
           <h1><strong>Draw and Guess</strong></h1>
-          <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+          <p>This is a draw and guess game with friends system and game room live chat function!</p>
           </center>
           <hr/>
 
@@ -111,11 +111,11 @@
             <input type="password" id="inputPassword" class="form-control" placeholder="Password: 8 characters, 1 uppercase, 1 lowercase and 1 number" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" title="At least 1 uppercase letter, 1 lowercase letter and 1 number. Length should be at least 8 characters. " required>
             <span id="pwdNotice" class="text-danger"></span>
 
-            <div class="checkbox">
+            <!-- <div class="checkbox">
               <label>
                 <input type="checkbox" value="remember-me"> Remember me
               </label>
-            </div>
+            </div> -->
 
             <button class="btn btn-lg btn-primary btn-block" type="button" value="submit" onclick="verify()">Sign in</button>
             <center><label style="text-align: center; padding-top: 10px">Don't have a account? <a href="#" data-toggle = "modal" data-target = "#myModal">Register here</a></label></center>
